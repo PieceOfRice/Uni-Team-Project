@@ -1,13 +1,14 @@
 # Uni Team Project
 
 This is the Web App I made as part of my Team Project Module.
+
 I worked in Team 02.
 
-Mde using: JHipster 7.9.4
+Made using: JHipster 7.9.4
 
 ## Team 02
-- Rhys H
 - Mark E 
+- Rhys H
 - Garance A-R 
 - Haiwei H 
 - Talha T 
