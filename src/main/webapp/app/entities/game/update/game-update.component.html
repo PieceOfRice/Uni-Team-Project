@@ -1,0 +1,89 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-game-heading" data-cy="GameCreateUpdateHeading">Create or edit a Game</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_order">Order</label>
+          <input type="number" class="form-control" name="order" id="field_order" data-cy="order" formControlName="order" />
+          <div *ngIf="editForm.get('order')!.invalid && (editForm.get('order')!.dirty || editForm.get('order')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('order')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('order')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('order')?.errors?.number"> This field should be a number. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_scoreOne">Score One</label>
+          <input type="number" class="form-control" name="scoreOne" id="field_scoreOne" data-cy="scoreOne" formControlName="scoreOne" />
+          <div *ngIf="editForm.get('scoreOne')!.invalid && (editForm.get('scoreOne')!.dirty || editForm.get('scoreOne')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('scoreOne')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('scoreOne')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_scoreTwo">Score Two</label>
+          <input type="number" class="form-control" name="scoreTwo" id="field_scoreTwo" data-cy="scoreTwo" formControlName="scoreTwo" />
+          <div *ngIf="editForm.get('scoreTwo')!.invalid && (editForm.get('scoreTwo')!.dirty || editForm.get('scoreTwo')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('scoreTwo')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('scoreTwo')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_overwatchMap">Overwatch Map</label>
+          <select
+            class="form-control"
+            id="field_overwatchMap"
+            data-cy="overwatchMap"
+            name="overwatchMap"
+            formControlName="overwatchMap"
+            [compareWith]="compareOverwatchMap"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="overwatchMapOption" *ngFor="let overwatchMapOption of overwatchMapsCollection">
+              {{ overwatchMapOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_match">Match</label>
+          <select class="form-control" id="field_match" data-cy="match" name="match" formControlName="match" [compareWith]="compareMatch">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="matchOption" *ngFor="let matchOption of matchesSharedCollection">{{ matchOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

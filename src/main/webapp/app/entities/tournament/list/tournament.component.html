@@ -1,0 +1,206 @@
+<div>
+  <h2 id="page-heading" data-cy="TournamentHeading">
+    <span>Tournaments</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-tournament"
+        [routerLink]="['/tournament/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Tournament </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="tournaments?.length === 0">
+    <span>No Tournaments found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="tournaments && tournaments.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span>Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="prizePool">
+            <div class="d-flex">
+              <span>Prize Pool</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="entryFee">
+            <div class="d-flex">
+              <span>Entry Fee</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="startTime">
+            <div class="d-flex">
+              <span>Start Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="endTime">
+            <div class="d-flex">
+              <span>End Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="location">
+            <div class="d-flex">
+              <span>Location</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bracketFormat">
+            <div class="d-flex">
+              <span>Bracket Format</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="accessStatus">
+            <div class="d-flex">
+              <span>Access Status</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="isLive">
+            <div class="d-flex">
+              <span>Is Live</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="ended">
+            <div class="d-flex">
+              <span>Ended</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="banner">
+            <div class="d-flex">
+              <span>Banner</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="gamesPerMatch">
+            <div class="d-flex">
+              <span>Games Per Match</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="maxParticipants">
+            <div class="d-flex">
+              <span>Max Participants</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tournamentSetting">
+            <div class="d-flex">
+              <span>Tournament Setting</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="creator.id">
+            <div class="d-flex">
+              <span>Creator</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tournament of tournaments; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/tournament', tournament.id, 'view']">{{ tournament.id }}</a>
+          </td>
+          <td>{{ tournament.name }}</td>
+          <td>{{ tournament.description }}</td>
+          <td>{{ tournament.prizePool }}</td>
+          <td>{{ tournament.entryFee }}</td>
+          <td>{{ tournament.startTime | formatMediumDatetime }}</td>
+          <td>{{ tournament.endTime | formatMediumDatetime }}</td>
+          <td>{{ tournament.location }}</td>
+          <td>{{ tournament.bracketFormat }}</td>
+          <td>{{ tournament.accessStatus }}</td>
+          <td>{{ tournament.isLive }}</td>
+          <td>{{ tournament.ended }}</td>
+          <td>
+            <a *ngIf="tournament.banner" (click)="openFile(tournament.banner, tournament.bannerContentType)">
+              <img
+                [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+                style="max-height: 30px"
+                alt="tournament image"
+              />
+            </a>
+            <span *ngIf="tournament.banner">{{ tournament.bannerContentType }}, {{ byteSize(tournament.banner) }}</span>
+          </td>
+          <td>{{ tournament.gamesPerMatch }}</td>
+          <td>{{ tournament.maxParticipants }}</td>
+          <td>{{ tournament.tournamentSetting }}</td>
+          <td>
+            <div *ngIf="tournament.creator">
+              <a [routerLink]="['/player-data', tournament.creator.id, 'view']">{{ tournament.creator.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/tournament', tournament.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/tournament', tournament.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(tournament)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

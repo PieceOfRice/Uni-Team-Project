@@ -1,0 +1,68 @@
+entity Player {
+    playerID Integer required
+    name String required
+    bio TextBlob
+}
+
+entity Team {
+    teamID Integer required
+    name String required
+    teamLogo ImageBlob
+    numOfParticipants Integer required
+}
+
+entity Tournament {
+    tournamentID Integer required
+    name String required
+    tournamentImage ImageBlob required
+    firstTeamID Integer
+    secondTeamID Integer
+    thirdTeamID Integer
+}
+
+entity OngoingMatch {
+    Team1ID Integer required
+    Team2ID Integer required
+    Team1Name String required
+    Team2Name String required
+    Team1Logo ImageBlob required
+    Team2Logo ImageBlob required
+    Team1Score Integer required
+    Team2Score Integer required
+}
+
+enum GameType {
+    CSGO,
+    LOL,
+    OVERWATCH
+}
+
+entity Game {
+    game GameType
+}
+
+relationship ManyToOne {
+    Team to OngoingMatch
+}
+
+relationship OneToMany {
+    Team to Game
+}
+
+relationship OneToOne {
+    OngoingMatch to Tournament
+}
+
+// team relations
+relationship OneToMany{
+    Player to Team
+}
+
+// game relations
+relationship OneToOne {
+    Tournament to Game
+}
+
+relationship OneToMany {
+    Tournament to Team
+}

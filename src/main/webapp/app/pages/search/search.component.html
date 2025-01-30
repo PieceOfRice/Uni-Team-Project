@@ -1,0 +1,319 @@
+<div id="search-page">
+  <div id="search">
+    <mat-form-field id="type-select">
+      <mat-label>Type</mat-label>
+      <mat-select [(value)]="inputType" (selectionChange)="updateType()">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="players">Players</mat-option>
+        <mat-option value="teams">Teams</mat-option>
+        <mat-option value="tournaments">Tournaments</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" id="search-bar">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        matNativeControl
+        type="text"
+        placeholder="Search"
+        (input)="updateInput($event)"
+        (keydown)="checkUpdateSearch($event)"
+      />
+    </mat-form-field>
+  </div>
+
+  <div id="results">
+    <p *ngIf="playerDataArray[0] == null && teamArray[0] == null && tournamentArray[0] == null">No Results</p>
+
+    <div class="divider" *ngIf="inputType == 'all' && playerDataArray[0] != null">
+      <p class="type-name">Players</p>
+      <mat-divider></mat-divider>
+    </div>
+
+    <div id="player-results" *ngIf="playerDataArray[0] != null">
+      <mat-card class="player-card" *ngFor="let player of playerDataArray; let i = index">
+        <div class="header-content">
+          <mat-card-header class="header"
+            ><a class="a-Two" [routerLink]="['/player', player.id]">{{ player.name }} </a> &nbsp;&nbsp;&nbsp;&nbsp;{{
+              player.overwatchUsername
+            }}</mat-card-header
+          >
+
+          <div class="content">
+            <img
+              *ngIf="player.profile"
+              mat-card-avatar
+              class="avatar"
+              [src]="'data:' + player.profileContentType + ';base64,' + player.profile"
+              alt="Profile Picture"
+              class="profile-pic"
+              style="margin-right: 1rem"
+            />
+
+            <fa-icon
+              *ngIf="!player.profile"
+              icon="user"
+              alt="Profile Picture"
+              class="avatar"
+              class="profile-pic"
+              style="margin-right: 1.8rem"
+              [size]="'2x'"
+            ></fa-icon>
+
+            <mat-card-content>{{ player.bio }}</mat-card-content>
+          </div>
+        </div>
+
+        <div class="actions">
+          <h6 class="action-header">Actions</h6>
+          <div class="team-actions">
+            <div class="team-preview" *ngFor="let team of playerTeams[i]">
+              <img
+                *ngIf="team.logo"
+                mat-card-avatar
+                class="avatar"
+                [src]="'data:' + team.logoContentType + ';base64,' + team.logo"
+                alt="Profile Picture"
+                class="profile-pic"
+                style="margin-right: 1rem"
+              />
+
+              <fa-icon *ngIf="!team.logo" icon="users" alt="Profile Picture" class="avatar" class="profile-pic" [size]="'2x'"></fa-icon>
+              <p>
+                <a class="a-Two" [routerLink]="['/team-view', team.id]">{{ team.name }}</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    <div *ngIf="inputType == 'all' && teamArray[0] != null">
+      <p class="type-name">Teams</p>
+      <mat-divider></mat-divider>
+    </div>
+
+    <div id="team-results" *ngIf="teamArray[0] != null">
+      <mat-card class="team-card" *ngFor="let team of teamArray">
+        <h6 class="team-name">
+          <a class="a-Two" [routerLink]="['/team-view', team.id]">{{ team.name }}</a>
+        </h6>
+
+        <img
+          *ngIf="team.logo"
+          mat-card-avatar
+          class="avatar"
+          [src]="'data:' + team.logoContentType + ';base64,' + team.logo"
+          alt="Profile Picture"
+          class="profile-pic"
+          style="margin-right: 1rem"
+        />
+
+        <fa-icon
+          *ngIf="!team.logo"
+          icon="users"
+          alt="Profile Picture"
+          class="avatar"
+          class="profile-pic"
+          style="margin-right: 1rem; margin-left: 1rem; margin-top: 1rem; margin-bottom: 1rem"
+          [size]="'4x'"
+        ></fa-icon>
+      </mat-card>
+    </div>
+
+    <div *ngIf="inputType == 'all' && tournamentArray[0] != null">
+      <p class="type-name">Tournaments</p>
+      <mat-divider></mat-divider>
+    </div>
+
+    <div id="tournament-results" *ngIf="tournamentArray[0] != null">
+      <div *ngFor="let tournament of tournamentArray; let i = index">
+        <mat-card class="tournament-card standings" *ngIf="tournamentStandings[i] != null">
+          <div class="tournament-info">
+            <mat-card-header
+              ><a class="a-Two" [routerLink]="['/tournament-view', tournament.id]">{{ tournament.name }}</a></mat-card-header
+            >
+            <img
+              *ngIf="tournament.banner"
+              mat-card-avatar
+              class="avatar"
+              [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+              alt="Profile Picture"
+              class="profile-pic"
+              style="margin-right: 1rem"
+            />
+            <br />
+            <fa-icon
+              *ngIf="!tournament.banner"
+              icon="flag"
+              alt="Profile Picture"
+              class="avatar"
+              class="profile-pic"
+              style="margin-left: 25%; margin-right: 25%; margin-top: 25%"
+              [size]="'6x'"
+            ></fa-icon>
+          </div>
+
+          <div class="standings-info">
+            <p class="standings-header">Standings</p>
+
+            <div class="standing" *ngFor="let standing of tournamentStandings[i]; let s_i = index">
+              <ng-container *ngIf="standing != null">
+                <p *ngIf="s_i == 0">1st</p>
+                <p *ngIf="s_i == 1">2nd</p>
+                <p *ngIf="s_i == 2">3rd</p>
+                <img
+                  *ngIf="standing.logo"
+                  mat-card-avatar
+                  class="avatar"
+                  [src]="'data:' + standing.logoContentType + ';base64,' + standing.logo"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                  style="margin-right: 1rem"
+                />
+
+                <fa-icon
+                  *ngIf="!standing.logo"
+                  icon="users"
+                  alt="Profile Picture"
+                  class="avatar"
+                  class="profile-pic"
+                  style="margin-right: 1rem; margin-left: 1rem; margin-top: 1rem; margin-bottom: 1rem"
+                  [size]="'4x'"
+                ></fa-icon>
+
+                <a class="a-Two" [routerLink]="['/team-view', standing.id]">{{ standing.name }}</a>
+              </ng-container>
+
+              <!-- <img src="https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg" alt="standing-1st"/> -->
+            </div>
+            <!-- <div class="standing">
+              <p *ngIf="tournamentStandings[s_i][1]!=null">2nd</p>
+              <img src="https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg" alt="standing-1st" />
+            </div>
+            <div class="tournamentStandings[s_i][2]!=null">
+              <p *ngIf="s_i==2">3rd</p>
+              <img src="https://cdn.britannica.com/70/234870-050-D4D024BB/Orange-colored-cat-yawns-displaying-teeth.jpg" alt="standing-1st" />
+            </div> -->
+          </div>
+        </mat-card>
+
+        <mat-card class="tournament-card recent-match" *ngIf="tournamentMatches[i] != null">
+          <div class="tournament-info">
+            <mat-card-header
+              ><a class="a-Two" [routerLink]="['/tournament-view', tournament.id]">{{ tournament.name }}</a></mat-card-header
+            >
+
+            <img
+              *ngIf="tournament.banner"
+              mat-card-avatar
+              class="avatar"
+              [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+              alt="Profile Picture"
+              class="profile-pic"
+              style="margin-right: 1rem"
+            />
+            <br />
+            <fa-icon
+              *ngIf="!tournament.banner"
+              icon="flag"
+              alt="Profile Picture"
+              class="avatar"
+              class="profile-pic"
+              style="margin-left: 25%; margin-right: 25%; margin-top: 25%"
+              [size]="'6x'"
+            ></fa-icon>
+          </div>
+
+          <div class="recent-match-info">
+            <p class="recent-match-header">Recent Match</p>
+            <div class="wrapper" *ngIf="tournamentMatchTeams[i] != null">
+              <div class="team-info" *ngIf="tournamentMatchTeams[i][0] != null">
+                <img
+                  *ngIf="tournamentMatchTeams[i][0].logo"
+                  mat-card-avatar
+                  class="avatar"
+                  [src]="'data:' + tournamentMatchTeams[i][0].logoContentType + ';base64,' + tournamentMatchTeams[i][0].logo"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                  style="margin-right: 1rem"
+                />
+
+                <fa-icon
+                  *ngIf="!tournamentMatchTeams[i][0].logo"
+                  icon="users"
+                  alt="Profile Picture"
+                  class="avatar"
+                  class="profile-pic"
+                  style="margin-right: 1rem; margin-left: 1rem; margin-top: 1rem; margin-bottom: 1rem"
+                  [size]="'4x'"
+                ></fa-icon>
+                <a class="a-Two" [routerLink]="['/team-view', tournamentMatchTeams[i][0].id]">{{ tournamentMatchTeams[i][0].name }}</a>
+                <p class="score">{{ tournamentMatches[i].oneScore }}</p>
+              </div>
+
+              <div class="in-between">
+                <p class="vs">vs</p>
+                <p class="hyphen">-</p>
+              </div>
+
+              <div class="team-info">
+                <img
+                  *ngIf="tournamentMatchTeams[i][1].logo"
+                  mat-card-avatar
+                  class="avatar"
+                  [src]="'data:' + tournamentMatchTeams[i][1].logoContentType + ';base64,' + tournamentMatchTeams[i][1].logo"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                  style="margin-right: 1rem"
+                />
+
+                <fa-icon
+                  *ngIf="!tournamentMatchTeams[i][1].logo"
+                  icon="users"
+                  alt="Profile Picture"
+                  class="avatar"
+                  class="profile-pic"
+                  style="margin-right: 1rem; margin-left: 1rem; margin-top: 1rem; margin-bottom: 1rem"
+                  [size]="'4x'"
+                ></fa-icon>
+
+                <a class="a-Two" [routerLink]="['/team-view', tournamentMatchTeams[i][1].id]">{{ tournamentMatchTeams[i][1].name }}</a>
+                <p class="score">{{ tournamentMatches[i].twoScore }}</p>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+
+        <mat-card class="tournament-card recent-match" *ngIf="tournamentMatches[i] == null && tournamentStandings[i] == null">
+          <div class="tournament-info">
+            <mat-card-header
+              ><a class="a-Two" [routerLink]="['/tournament-view', tournament.id]">{{ tournament.name }}</a></mat-card-header
+            >
+
+            <img
+              *ngIf="tournament.banner"
+              mat-card-avatar
+              class="avatar"
+              [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+              alt="Profile Picture"
+              class="profile-pic"
+              style="margin-right: 1rem"
+            />
+            <br />
+            <fa-icon
+              *ngIf="!tournament.banner"
+              icon="flag"
+              alt="Profile Picture"
+              class="avatar"
+              class="profile-pic"
+              style="margin-left: 25%; margin-right: 25%; margin-top: 25%"
+              [size]="'6x'"
+            ></fa-icon>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

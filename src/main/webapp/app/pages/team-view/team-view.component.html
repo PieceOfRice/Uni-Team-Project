@@ -1,0 +1,216 @@
+<div class="d-flex justify-content-center">
+  <div style="position: relative; width: 95%; height: 15vw; margin: 0 0 1rem">
+    <div
+      *ngIf="team.banner"
+      style="overflow: hidden"
+      style="height: 100%; clip-path: polygon(4% 0%, 96% 0%, 100% 30%, 96% 100%, 4% 100%, 0% 30%)"
+    >
+      <img style="width: 100%; height: auto; margin: -25% 0 -25%" [src]="'data:' + team.bannerContentType + ';base64,' + team.banner" />
+    </div>
+    <div
+      *ngIf="!team.banner"
+      style="overflow: hidden"
+      style="height: 100%; clip-path: polygon(4% 0%, 96% 0%, 100% 30%, 96% 100%, 4% 100%, 0% 30%)"
+    >
+      <img style="width: 100%; height: auto; margin: -25% 0 -25%" [src]="'../../../content/images/map' + (team.id % 15) + '.png'" />
+    </div>
+    <img
+      *ngIf="team.logo"
+      style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20%;
+        height: auto;
+        border-radius: 50%;
+        border: 1vh solid #2b2932;
+      "
+      [src]="'data:' + team.logoContentType + ';base64,' + team.logo"
+    />
+  </div>
+</div>
+<div class="d-flex justify-content-center" style="margin: 0 10% 0 10%; flex-direction: column">
+  <div class="d-flex justify-content-between">
+    <h1>{{ team.name }}</h1>
+    <button
+      *ngIf="!isMember() && !isClosedTeam()"
+      (click)="joinTeam()"
+      style="margin: 1% 0 1% 0; padding: 0 5% 0 5%; border-radius: 5rem"
+      mat-flatbutton
+    >
+      {{ isPublicTeam() ? 'Join' : 'Request Join' }}
+    </button>
+    <button
+      *ngIf="isMember()"
+      (click)="leaveTeam()"
+      color="warn"
+      style="color: #b9314f; margin: 1% 0 1% 0; padding: 0 5% 0 5%; border-radius: 5rem"
+      mat-flatbutton
+    >
+      {{ isAccepted() ? 'Leave' : 'Cancel Request' }}
+    </button>
+  </div>
+  <div class="d-flex justify-content-left" style="margin: 0 0 3% 0">
+    <span style="margin: 0 1rem 0 0">{{ team.accessStatus ? team.accessStatus : 'CLOSED' }}</span>
+    <span style="margin: 0 1rem 0 0">{{ getWins() }} Wins</span>
+    <span style="margin: 0 1rem 0 0">{{ getLosses() }} Losses</span>
+  </div>
+  <p>{{ team.description }}</p>
+</div>
+<div class="d-flex justify-content-center" style="margin: 5%">
+  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" style="width: 100%; padding: 0">
+    <mat-tab label="Members">
+      <div class="d-flex justify-content-center" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 2rem">
+        <mat-card
+          *ngFor="let approved of getMembers(true)"
+          style="border-radius: 1rem; background-color: #3b3942; margin: 1rem; width: 20rem; height: 20rem; padding: 0px"
+        >
+          <a
+            [routerLink]="['/player', approved.player?.id]"
+            routerLinkActive="router-link-active"
+            style="display: block; position: absolute; width: 100%; height: 100%"
+          ></a>
+          <mat-card-title
+            style="
+              padding: 1rem 0 0.25rem 0;
+              text-align: center;
+              box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+              background-color: #566acd;
+              border-radius: 1rem 1rem 0 0;
+            "
+          >
+            <h5 [style.color]="approved.role === 'LEADER' ? 'gold' : 'inherit'">{{ approved.role }}</h5>
+          </mat-card-title>
+          <mat-card-content style="display: flex; justify-content: center; flex-direction: column; margin: 0">
+            <img
+              *ngIf="approved.player?.profile"
+              style="width: 10rem; height: 10rem; border-radius: 50%; margin: auto"
+              [src]="'data:' + approved.player?.profileContentType + ';base64,' + approved.player?.profile"
+            />
+            <div
+              style="background-color: gray; width: 10rem; height: 10rem; border-radius: 50%; margin: auto"
+              *ngIf="!approved.player?.profile"
+            >
+              &nbsp;
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                margin-top: 0.1rem;
+                padding: 0 1rem 0 1rem;
+              "
+            >
+              <span style="font-size: 1.5rem">{{ approved.player!.name }}</span>
+              <span style="color: #8b8982; text-shadow: none">{{ approved.player!.overwatchUsername }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Matches">
+      <div class="d-flex justify-content-center">
+        <mat-card
+          *ngFor="let match of matches"
+          style="
+            display: flex;
+            flex-direction: column;
+            border-radius: 1rem;
+            background-color: #3b3942;
+            margin: 1rem;
+            width: 20rem;
+            height: 20rem;
+            padding: 0px;
+          "
+        >
+          <a
+            [routerLink]="['/match-view', match.id]"
+            routerLinkActive="router-link-active"
+            style="display: block; position: absolute; width: 100%; height: 100%"
+          ></a>
+          <mat-card-title
+            style="
+              padding: 1rem 0 0.25rem 0;
+              text-align: center;
+              box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+              background-color: #566acd;
+              border-radius: 1rem 1rem 0 0;
+              margin-bottom: 0px;
+            "
+          >
+            <h5>{{ isWinner(match) ? 'VICTORY' : 'DEFEAT' }}</h5>
+          </mat-card-title>
+          <mat-card-content
+            [style.background-image]="'url(' + getMapImage(match) + ')'"
+            style="background-position: center; display: flex; justify-content: center; flex-direction: column; margin: 0"
+          >
+            <div style="justify-content: center; text-align: center; padding: 0 1rem 0 1rem">
+              <div style="height: 10rem; font-size: 6rem">{{ match.oneScore }} : {{ match.twoScore }}</div>
+            </div>
+          </mat-card-content>
+          <mat-card-footer style="margin-left: auto; margin-right: auto; margin-top: 0px; padding: 2px 1rem 0px 1rem">
+            <span style="color: #8b8982; text-shadow: none">{{ match.startTime }} to {{ match.endTime }}</span>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Requests" *ngIf="isLeader() && isPrivateTeam()">
+      <div class="d-flex justify-content-center" style="display: flex; flex-wrap: wrap; flex-direction: row; padding-top: 2rem">
+        <mat-card
+          *ngFor="let unapproved of getMembers(false)"
+          style="border-radius: 1rem; background-color: #3b3942; margin: 1rem; width: 20rem; height: 20rem; padding: 0px"
+        >
+          <a
+            [routerLink]="['/player', unapproved.id]"
+            routerLinkActive="router-link-active"
+            style="display: block; position: absolute; width: 100%; height: 100%"
+          ></a>
+          <mat-card-title
+            style="
+              padding: 1rem 0 0.25rem 0;
+              text-align: center;
+              box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+              background-color: #566acd;
+              border-radius: 1rem 1rem 0 0;
+            "
+          >
+            <h5>APPLICANT</h5>
+          </mat-card-title>
+          <mat-card-content style="display: flex; justify-content: center; flex-direction: column; margin: 0">
+            <img
+              *ngIf="unapproved.player?.profile"
+              style="width: 10rem; height: 10rem; border-radius: 50%; margin: auto"
+              [src]="'data:' + unapproved.player?.profileContentType + ';base64,' + unapproved.player?.profile"
+            />
+            <div
+              style="background-color: gray; width: 10rem; height: 10rem; border-radius: 50%; margin: auto"
+              *ngIf="!unapproved.player?.profile"
+            >
+              &nbsp;
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: center;
+                margin-top: 0.1rem;
+                padding: 0 1rem 0 1rem;
+              "
+            >
+              <span style="font-size: 1.5rem">{{ unapproved.player!.name }}</span>
+              <span style="color: #8b8982; text-shadow: none">{{ unapproved.player!.overwatchUsername }}</span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions style="display: flex; justify-content: center; padding: 0 1rem 0 1rem">
+            <button mat-button (click)="acceptApplicant(unapproved.id)" color="accent">Accept</button>
+            <button mat-button (click)="rejectApplicant(unapproved.id)" color="primary">Reject</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

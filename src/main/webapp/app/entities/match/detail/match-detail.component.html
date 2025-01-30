@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="match">
+      <h2 data-cy="matchDetailsHeading"><span>Match</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ match.id }}</span>
+        </dd>
+        <dt><span>Match Index</span></dt>
+        <dd>
+          <span>{{ match.matchIndex }}</span>
+        </dd>
+        <dt><span>One Score</span></dt>
+        <dd>
+          <span>{{ match.oneScore }}</span>
+        </dd>
+        <dt><span>Two Score</span></dt>
+        <dd>
+          <span>{{ match.twoScore }}</span>
+        </dd>
+        <dt><span>Start Time</span></dt>
+        <dd>
+          <span>{{ match.startTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+          <span>{{ match.endTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Score Submitted</span></dt>
+        <dd>
+          <span>{{ match.scoreSubmitted }}</span>
+        </dd>
+        <dt><span>Score Approved</span></dt>
+        <dd>
+          <span>{{ match.scoreApproved }}</span>
+        </dd>
+        <dt><span>Tournament</span></dt>
+        <dd>
+          <div *ngIf="match.tournament">
+            <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Team One</span></dt>
+        <dd>
+          <div *ngIf="match.teamOne">
+            <a [routerLink]="['/team', match.teamOne.id, 'view']">{{ match.teamOne.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Team Two</span></dt>
+        <dd>
+          <div *ngIf="match.teamTwo">
+            <a [routerLink]="['/team', match.teamTwo.id, 'view']">{{ match.teamTwo.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

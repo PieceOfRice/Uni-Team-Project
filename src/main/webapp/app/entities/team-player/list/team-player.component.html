@@ -1,0 +1,110 @@
+<div>
+  <h2 id="page-heading" data-cy="TeamPlayerHeading">
+    <span>Team Players</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-team-player"
+        [routerLink]="['/team-player/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Team Player </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="teamPlayers?.length === 0">
+    <span>No Team Players found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="teamPlayers && teamPlayers.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="role">
+            <div class="d-flex">
+              <span>Role</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="player.id">
+            <div class="d-flex">
+              <span>Player</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="team.id">
+            <div class="d-flex">
+              <span>Team</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let teamPlayer of teamPlayers; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/team-player', teamPlayer.id, 'view']">{{ teamPlayer.id }}</a>
+          </td>
+          <td>{{ teamPlayer.role }}</td>
+          <td>
+            <div *ngIf="teamPlayer.player">
+              <a [routerLink]="['/player-data', teamPlayer.player.id, 'view']">{{ teamPlayer.player.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="teamPlayer.team">
+              <a [routerLink]="['/team', teamPlayer.team.id, 'view']">{{ teamPlayer.team.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/team-player', teamPlayer.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/team-player', teamPlayer.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(teamPlayer)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

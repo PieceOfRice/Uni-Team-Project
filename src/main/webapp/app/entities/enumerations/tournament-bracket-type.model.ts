@@ -1,0 +1,5 @@
+export enum TournamentBracketType {
+  SINGLE_ELIMINATION = 'SINGLE_ELIMINATION',
+
+  DOUBLE_ELIMINATION = 'DOUBLE_ELIMINATION',
+}

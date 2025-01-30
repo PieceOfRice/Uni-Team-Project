@@ -1,0 +1,60 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183833",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "team",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique"]
+    },
+    {
+      "fieldName": "logo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "banner",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Team",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "teamOne",
+      "relationshipName": "teamOne",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "teamTwo",
+      "relationshipName": "teamTwo",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "teamPlayer",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "team",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "participant",
+      "otherEntityRelationshipName": "team",
+      "relationshipName": "participant",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

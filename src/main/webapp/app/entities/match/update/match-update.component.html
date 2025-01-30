@@ -1,0 +1,187 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-match-heading" data-cy="MatchCreateUpdateHeading">Create or edit a Match</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_matchIndex">Match Index</label>
+          <input
+            type="number"
+            class="form-control"
+            name="matchIndex"
+            id="field_matchIndex"
+            data-cy="matchIndex"
+            formControlName="matchIndex"
+          />
+          <div *ngIf="editForm.get('matchIndex')!.invalid && (editForm.get('matchIndex')!.dirty || editForm.get('matchIndex')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('matchIndex')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('matchIndex')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_oneScore">One Score</label>
+          <input type="number" class="form-control" name="oneScore" id="field_oneScore" data-cy="oneScore" formControlName="oneScore" />
+          <div *ngIf="editForm.get('oneScore')!.invalid && (editForm.get('oneScore')!.dirty || editForm.get('oneScore')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('oneScore')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('oneScore')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_twoScore">Two Score</label>
+          <input type="number" class="form-control" name="twoScore" id="field_twoScore" data-cy="twoScore" formControlName="twoScore" />
+          <div *ngIf="editForm.get('twoScore')!.invalid && (editForm.get('twoScore')!.dirty || editForm.get('twoScore')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('twoScore')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('twoScore')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_startTime">Start Time</label>
+          <div class="d-flex">
+            <input
+              id="field_startTime"
+              data-cy="startTime"
+              type="datetime-local"
+              class="form-control"
+              name="startTime"
+              formControlName="startTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_endTime">End Time</label>
+          <div class="d-flex">
+            <input
+              id="field_endTime"
+              data-cy="endTime"
+              type="datetime-local"
+              class="form-control"
+              name="endTime"
+              formControlName="endTime"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_scoreSubmitted">Score Submitted</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="scoreSubmitted"
+            id="field_scoreSubmitted"
+            data-cy="scoreSubmitted"
+            formControlName="scoreSubmitted"
+          />
+          <div
+            *ngIf="
+              editForm.get('scoreSubmitted')!.invalid && (editForm.get('scoreSubmitted')!.dirty || editForm.get('scoreSubmitted')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('scoreSubmitted')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_scoreApproved">Score Approved</label>
+          <input
+            type="checkbox"
+            class="form-check"
+            name="scoreApproved"
+            id="field_scoreApproved"
+            data-cy="scoreApproved"
+            formControlName="scoreApproved"
+          />
+          <div
+            *ngIf="
+              editForm.get('scoreApproved')!.invalid && (editForm.get('scoreApproved')!.dirty || editForm.get('scoreApproved')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('scoreApproved')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournament">Tournament</label>
+          <select
+            class="form-control"
+            id="field_tournament"
+            data-cy="tournament"
+            name="tournament"
+            formControlName="tournament"
+            [compareWith]="compareTournament"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="tournamentOption" *ngFor="let tournamentOption of tournamentsSharedCollection">
+              {{ tournamentOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_teamOne">Team One</label>
+          <select
+            class="form-control"
+            id="field_teamOne"
+            data-cy="teamOne"
+            name="teamOne"
+            formControlName="teamOne"
+            [compareWith]="compareTeam"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_teamTwo">Team Two</label>
+          <select
+            class="form-control"
+            id="field_teamTwo"
+            data-cy="teamTwo"
+            name="teamTwo"
+            formControlName="teamTwo"
+            [compareWith]="compareTeam"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="teamOption" *ngFor="let teamOption of teamsSharedCollection">{{ teamOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

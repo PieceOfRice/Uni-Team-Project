@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183839",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "participant",
+  "fields": [
+    {
+      "fieldName": "signUpRank",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Participant",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "participant",
+      "relationshipName": "team",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "participant",
+      "relationshipName": "tournament",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

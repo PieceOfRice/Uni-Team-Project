@@ -1,0 +1,176 @@
+<div>
+  <h2 id="page-heading" data-cy="PlayerDataHeading">
+    <span>Player Data</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-player-data"
+        [routerLink]="['/player-data/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Player Data </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="playerData?.length === 0">
+    <span>No Player Data found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="playerData && playerData.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="overwatchUsername">
+            <div class="d-flex">
+              <span>Overwatch Username</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="profile">
+            <div class="d-flex">
+              <span>Profile</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="bio">
+            <div class="d-flex">
+              <span>Bio</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="primaryLanguage">
+            <div class="d-flex">
+              <span>Primary Language</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="device">
+            <div class="d-flex">
+              <span>Device</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="matchesPlayed">
+            <div class="d-flex">
+              <span>Matches Played</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tournamentsPlayed">
+            <div class="d-flex">
+              <span>Tournaments Played</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="matchWins">
+            <div class="d-flex">
+              <span>Match Wins</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tournamentWins">
+            <div class="d-flex">
+              <span>Tournament Wins</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tournamentTop10s">
+            <div class="d-flex">
+              <span>Tournament Top 10 S</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.id">
+            <div class="d-flex">
+              <span>User</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let playerData of playerData; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/player-data', playerData.id, 'view']">{{ playerData.id }}</a>
+          </td>
+          <td>{{ playerData.name }}</td>
+          <td>{{ playerData.overwatchUsername }}</td>
+          <td>
+            <a *ngIf="playerData.profile" (click)="openFile(playerData.profile, playerData.profileContentType)">
+              <img
+                [src]="'data:' + playerData.profileContentType + ';base64,' + playerData.profile"
+                style="max-height: 30px"
+                alt="playerData image"
+              />
+            </a>
+            <span *ngIf="playerData.profile">{{ playerData.profileContentType }}, {{ byteSize(playerData.profile) }}</span>
+          </td>
+          <td>{{ playerData.bio }}</td>
+          <td>{{ playerData.primaryLanguage }}</td>
+          <td>{{ playerData.device }}</td>
+          <td>{{ playerData.matchesPlayed }}</td>
+          <td>{{ playerData.tournamentsPlayed }}</td>
+          <td>{{ playerData.matchWins }}</td>
+          <td>{{ playerData.tournamentWins }}</td>
+          <td>{{ playerData.tournamentTop10s }}</td>
+          <td>
+            {{ playerData.user?.id }}
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/player-data', playerData.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/player-data', playerData.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(playerData)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

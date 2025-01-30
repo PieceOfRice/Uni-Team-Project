@@ -1,0 +1,63 @@
+enum TournamentBracketType {
+    SINGLE_ELIMINATION
+    DOUBLE_ELIMINATION
+}
+enum AccessStatus {
+    PUBLIC
+    PRIVATE
+    CLOSED
+}
+enum ParticipantType {
+    TEAM
+    INDIVIDUAL
+}
+enum TeamRole {
+    LEADER
+    COACH
+    PLAYER
+    SUBSTITUTE
+}
+entity Tournament {
+    id UUID required unique
+    name String required unique minlength(3) maxlength(40)
+    description String
+    organiserId UUID required
+    prizePool Float
+    startTime ZonedDateTime required
+    endTime ZonedDateTime
+    location String
+    bracketFormat TournamentBracketType
+    accessStatus AccessStatus required
+    isLive Boolean required
+    ended Boolean required
+    banner ImageBlob
+}
+entity Participant {
+    id UUID required unique
+    type ParticipantType required
+    signUpRank Integer required
+}
+entity MockPlayer {
+    id UUID required unique
+    name String
+    profile ImageBlob
+    bio String
+}
+entity Team {
+    id UUID required unique
+    name String required unique
+    logo ImageBlob
+    banner ImageBlob
+    description String
+}
+entity TeamPlayer {
+    id UUID required unique
+    role TeamRole required
+}
+relationship OneToMany {
+    Tournament{tournament} to Participant{tournament}
+    MockPlayer{teamAffiliation} to TeamPlayer{teamAffiliation}
+    Team{playerAffiliations} to TeamPlayer{playerAffiliations}
+    Team {linkedTeam} to Participant{linkedTeam}
+    MockPlayer{player} to Participant{player}
+}

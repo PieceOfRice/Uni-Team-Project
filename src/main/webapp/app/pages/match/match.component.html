@@ -1,0 +1,242 @@
+<html class="html">
+  <!-- Check if Match Doesn't Exists-->
+  <div *ngIf="!matchData">Match not Found: {{ matchId }}</div>
+
+  <!-- Check if Match Exists-->
+  <div *ngIf="matchData">
+    <!-- Tournament and Date -->
+    <div class="tournament-link">
+      <a class="a-tournament" [routerLink]="['/tournament-view', matchData?.body?.tournament.id]">{{ tournamentData?.body.name }}</a> >
+      Match #{{ matchData.body.matchIndex }}
+    </div>
+    <div class="date">
+      {{ matchData?.body?.startTime }}
+    </div>
+    <br />
+
+    <!-- Team Names -->
+    <div class="horizontal-bar-teams">
+      <div class="teamOne">
+        <img
+          alt="Team One Logo"
+          class="team-pic"
+          *ngIf="teamOneData.body.logo"
+          [src]="'data:' + teamOneData.body.logoContentType + ';base64,' + teamOneData.body.logo"
+        />
+
+        <a class="a-One" [routerLink]="['/team-view', teamOneData?.body?.id]">{{ teamOneData?.body?.name }}</a>
+      </div>
+
+      <div class="vs">
+        <p>VS</p>
+      </div>
+
+      <div class="teamTwo">
+        <a class="a-Two" [routerLink]="['/team-view', teamTwoData?.body?.id]">{{ teamTwoData?.body?.name }}</a>
+        <img
+          *ngIf="teamTwoData.body.logo"
+          [src]="'data:' + teamTwoData.body.logoContentType + ';base64,' + teamTwoData.body.logo"
+          alt="Team Two Logo"
+          class="team-pic"
+        />
+      </div>
+    </div>
+    <br />
+    <br />
+
+    <!-- Full Player Lists -->
+
+    <div class="clearfix">
+      <div class="game-container">
+        <div style="width: 43%; float: left">
+          <!-- Team One -->
+          <div *ngFor="let player of teamOnePlayers" class="gameTeamOneList">
+            <div class="icon-wrapper">
+              <img
+                *ngIf="player[0].profile"
+                [src]="'data:' + player[0].profileContentType + ';base64,' + player[0].profile"
+                alt="Profile Picture"
+                class="profile-pic"
+              />
+              <fa-icon *ngIf="!player[0].profile" icon="user" class="fa-custom-icon" style="margin-left: 30%"></fa-icon>
+            </div>
+
+            <div>
+              <span class="player-name"
+                ><a class="a-One" [routerLink]="['/player', player[0].id]">{{ player[0].name }}</a></span
+              >
+              <span class="player-username">{{ player[0].overwatchUsername }}</span>
+
+              <div style="display: inline-block">
+                <div class="icon-container">
+                  <fa-icon class="leader-icon" *ngIf="player[1] == 'LEADER'" icon="star" class="fa-custom-icon" tabindex="0"></fa-icon>
+                  <span class="tooltip-text">Team Leader</span>
+                </div>
+              </div>
+
+              <div style="display: inline-block">
+                <div class="icon-container">
+                  <fa-icon
+                    class="coach-icon"
+                    *ngIf="player[1] == 'COACH'"
+                    icon="graduation-cap"
+                    class="fa-custom-icon"
+                    tabindex="0"
+                  ></fa-icon>
+                  <span class="tooltip-text">Coach</span>
+                </div>
+              </div>
+
+              <!-- <fa-icon class="leader-icon" *ngIf="player.teamRole == 'SUBSTITUTE'" icon= "star" class="fa-custom-icon"></fa-icon> -->
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="matchData?.body.scoreSubmitted" class="game-score-total">
+          <p>{{ teamOneWins }} - {{ teamTwoWins }}</p>
+        </div>
+
+        <div *ngIf="!matchData?.body.scoreSubmitted && submitPerm && tournamentData.body.isLive" class="button-container">
+          <button mat-flat-button class="submit-score" [routerLink]="['/match-submit', matchIdNum]">Submit Score</button>
+        </div>
+
+        <div *ngIf="matchData?.body.scoreSubmitted && !matchData?.body.scoreApproved && approvePerm" class="button-container">
+          <button mat-flat-button class="approve-score" (click)="approveScore()">Approve Score</button>
+        </div>
+        <div *ngIf="matchData?.body.scoreSubmitted && !matchData?.body.scoreApproved && approvePerm" class="button-container">
+          <button mat-flat-button class="unsubmit-score" (click)="unSubmit()">UnSubmit Score</button>
+        </div>
+
+        <div style="width: 43%; float: right">
+          <!-- Team Two -->
+          <div *ngFor="let player of teamTwoPlayers" class="gameTeamTwoList">
+            <div class="teamTwoPlayers">
+              <div>
+                <!-- Icons + Tooltips -->
+                <div style="display: inline-block">
+                  <div class="icon-container">
+                    <fa-icon class="leader-icon" *ngIf="player[1] == 'LEADER'" icon="star" class="fa-custom-icon" tabindex="0"></fa-icon>
+                    <span class="tooltip-text">Team Leader</span>
+                  </div>
+                </div>
+
+                <div style="display: inline-block">
+                  <div class="icon-container">
+                    <fa-icon
+                      class="coach-icon"
+                      *ngIf="player[1] == 'COACH'"
+                      icon="graduation-cap"
+                      class="fa-custom-icon"
+                      tabindex="0"
+                    ></fa-icon>
+                    <span class="tooltip-text">Coach</span>
+                  </div>
+                </div>
+
+                <span class="player-username">{{ player[0].overwatchUsername }}</span>
+                <span class="player-name"
+                  ><a class="a-Two" [routerLink]="['/player', player[0].id]">{{ player[0].name }}</a></span
+                >
+              </div>
+
+              <div class="icon-wrapper">
+                <img
+                  *ngIf="player[0].profile"
+                  [src]="'data:' + player[0].profileContentType + ';base64,' + player[0].profile"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                />
+                <fa-icon
+                  *ngIf="!player[0].profile"
+                  icon="user"
+                  class="fa-custom-icon"
+                  style="margin-left: 30%; margin-right: 30%"
+                ></fa-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br />
+
+    <!-- Game Lists -->
+
+    <div *ngIf="matchData?.body.scoreSubmitted">
+      <div *ngFor="let map of maps; let i = index" id="map-image" [style.background-image]="'url(' + gamesData.body[i].mapimage + ')'">
+        <hr style="border: 4px solid #566acd; opacity: 1; width: 80%; margin-left: 10%; margin-bottom: 50px; border-radius: 5px" />
+        <div class="horizontal-bar-games">
+          <p>{{ gamesData.body[i].mapName }}</p>
+        </div>
+
+        <br />
+
+        <!-- Player Lists for each game -->
+        <div class="clearfix">
+          <div style="width: 43%; float: left">
+            <!-- Team One -->
+            <div *ngFor="let player of gamesData.body[i].teamOnePlayers" class="gameTeamOneList">
+              <div class="icon-wrapper">
+                <img
+                  *ngIf="player.playerData.body.profile"
+                  [src]="'data:' + player.playerData.body.profileContentType + ';base64,' + player.playerData.body.profile"
+                  alt="Profile Picture"
+                  class="profile-pic"
+                />
+                <fa-icon
+                  *ngIf="!player.playerData.body.profile"
+                  icon="user"
+                  class="fa-custom-icon"
+                  style="margin-left: 30%; margin-right: 30%"
+                ></fa-icon>
+              </div>
+
+              <div>
+                <span class="player-name"
+                  ><a class="a-One" [routerLink]="['/player', player.playerData.body.id]">{{ player.playerData.body.name }}</a></span
+                >
+                <span class="player-username">{{ player.playerData.body.overwatchUsername }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-score">
+            {{ gamesData.body[i].scoreOne }} - {{ gamesData.body[i].scoreTwo }}
+            <div class="replay">< {{ gamesData.body[i].replay }} ></div>
+          </div>
+
+          <div style="width: 43%; float: right">
+            <!-- Team Two -->
+            <div *ngFor="let player of gamesData.body[i].teamTwoPlayers" class="gameTeamTwoList">
+              <div class="teamTwoPlayers">
+                <div>
+                  <span class="player-username">{{ player.playerData.body.overwatchUsername }}</span>
+                  <span class="player-name"
+                    ><a class="a-Two" [routerLink]="['/player', player.playerData.body.id]">{{ player.playerData.body.name }}</a></span
+                  >
+                </div>
+
+                <div class="icon-wrapper">
+                  <img
+                    *ngIf="player.playerData.body.profile"
+                    [src]="'data:' + player.playerData.body.profileContentType + ';base64,' + player.playerData.body.profile"
+                    alt="Profile Picture"
+                    class="profile-pic"
+                  />
+                  <fa-icon
+                    *ngIf="!player.playerData.body.profile"
+                    icon="user"
+                    class="fa-custom-icon"
+                    style="margin-left: 30%; margin-right: 30%"
+                  ></fa-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+      </div>
+    </div>
+  </div>
+</html>

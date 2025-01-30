@@ -1,0 +1,40 @@
+
+entity User {
+	userame String required,
+    platform String required,
+    gamePlatform Platform, 
+    password String required minlength(8)
+}
+entity Coach {
+	name String required,
+}
+
+entity 	Team {
+	name String required unique,
+    description String,
+    maxMembers Integer,
+    teamPrivacy TeamPrivacy
+}
+enum TeamPrivacy {
+	PUBLIC,
+    PRIVATE
+	
+}
+enum Platform {
+	 PC, PLAYSTATION, XBOX, NINTENDO
+}
+
+relationship OneToOne{
+	Coach to Team
+}
+relationship ManyToOne {
+	User{users} to Team
+}
+
+// defining multiple oneToOne relationships
+relationship ManyToMany {
+	User{users} to Platform{platforms}
+}
+
+
+

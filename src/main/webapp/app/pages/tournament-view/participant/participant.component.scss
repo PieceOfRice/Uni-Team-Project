@@ -1,0 +1,104 @@
+@use 'sass:math';
+
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+@import '/src/main/webapp/content/scss/utilities.scss';
+
+$LISTING_BORDER_WIDTH: 3px;
+$LISTING_HEIGHT: 80px;
+$HEIGHT_OFFSET: 10px;
+$LOGO_HEIGHT: $LISTING_HEIGHT - $HEIGHT_OFFSET;
+
+a {
+  color: $theme-text;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $theme-accent;
+  text-decoration: underline;
+}
+
+.listing {
+  background-color: $theme-primary;
+  height: $LISTING_HEIGHT;
+  width: 100%;
+
+  border-style: solid;
+  border-radius: math.div($LISTING-HEIGHT, 2);
+  border-width: $LISTING_BORDER_WIDTH;
+  border-color: $theme-secondary;
+
+  .label {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .logo {
+      background-color: $theme-tertiary;
+      font-size: math.div($LISTING-HEIGHT, 4);
+      line-height: math.div($LISTING-HEIGHT, 4);
+
+      border-style: solid;
+      border-color: $theme-tertiary;
+      border-radius: math.div($LISTING_HEIGHT, 2);
+
+      height: $LOGO_HEIGHT;
+      width: $LOGO_HEIGHT;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-left: $LISTING_BORDER_WIDTH;
+
+      img {
+        width: 100%;
+        height: 100%;
+
+        border-style: solid;
+        border-color: $theme-tertiary;
+        border-radius: math.div($LISTING_HEIGHT, 2);
+      }
+
+      fa-icon {
+        font-size: math.div($LOGO_HEIGHT, 2);
+        text-align: center;
+      }
+    }
+
+    .team-name {
+      color: $theme-text;
+      font-size: math.div($LISTING-HEIGHT, 3);
+      line-height: math.div($LISTING-HEIGHT, 3);
+
+      display: flex;
+      justify-content: left;
+      align-items: center;
+
+      margin-left: 10px;
+    }
+
+    .sign-up-rank {
+      color: $theme-secondary;
+      font-size: math.div($LISTING-HEIGHT, 2);
+      line-height: math.div($LISTING-HEIGHT, 2);
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+      height: $LOGO_HEIGHT;
+      width: $LOGO_HEIGHT;
+
+      display: flex;
+      justify-content: right;
+      align-items: center;
+
+      margin-left: auto;
+      margin-right: math.div($LISTING_HEIGHT, 3);
+    }
+  }
+}

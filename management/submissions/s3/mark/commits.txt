@@ -1,0 +1,86 @@
+96774df update time sheet
+fe4cf5e add s3 script and new timesheet
+5fa0989 update time sheet
+612751e fix merge conflicts
+30ad30f fix merge conflicts
+834f898 update timesheet
+98ca4ff update tournament data display to use flex to work nicer on mobile screens
+475b73e add pipes for transforming data labels in tournament ui
+a1723e6 refactor authority pipe name
+1c537c2 Merge branch 'main' of https://git.cs.bham.ac.uk/team-projects-2023-24/team02
+38335cf update timesheets
+b37a462 start on tournament view ui and get data labels to show basic tournament information
+9652bd8 create global utilities styling file for util functions and refactor some tournament styling code
+55716b8 add basic tournament view page routing and data fetching
+bbe6fd3 Merge branch 'main' of https://git.cs.bham.ac.uk/team-projects-2023-24/team02
+15f436c update time sheet again
+6941d89 (tag: 0.2.2, tag: 0.2.1) Merge branch 'main' of https://git.cs.bham.ac.uk/team-projects-2023-24/team02
+7275175 update app routing formatting
+fbf9f9e fix ui after latest backend changes
+0b46220 Merge branch 'main' into styling-testing
+2f04de5 update time sheet
+567f819 add m2 submission document
+d85feea update dpia form
+07306fc make team creation frontend functional and talk to backend
+8764b59 implement simple non-functional team creation ui template code
+a24b401 Merge branch 'main' into styling-testing
+7316ed7 update time sheets
+fb3c2ea setup angular material library
+9c15e7c format home page
+c2d0496 remove tournament/team creation from non-users
+5959233 remove entity access privileges from normal users
+829c46d update footer to include legal links
+46de8f8 Merge branch 'main' into styling-testing
+910aec9 update gpdr for with rhys' changes
+b3ffbc2 add latest meeting log and dpia form pdf
+61e7aca add routing to pages, and create search, team create and tournament create pages
+5be8a35 add search, team and tournament creation buttons to navbar
+7677ca9 Merge branch 'main' into styling-testing
+9ecfc26 add taziba's ranking justification
+4536eb5 re-organise meeting logs
+ffbf1b7 latest meeting files
+75aee0a switch theme to vapor and write scss overrides for custom theme
+3490582 Merge branch 'main' into styling-testing
+7975296 regenerate from jdl with jhipster
+6c2384b Merge branch 'main' into rhys-dtos
+49b1368 final update to jdl for formatting
+a15635b move project jdl file to s2 dir
+12a2ab5 bring project jdl up to date with decided logical changes over other branches
+a1b4dd5 make s2 submission
+13e0dc2 update my jdl to remove round robin
+c4d121f finalise jdl for class diagram and s2 submission
+1c9c9f4 add latest meeting log
+9391a11 update time sheet
+d53412b update time sheet
+da893ac update tech report
+795adc3 Merge branch 'main' of https://git.cs.bham.ac.uk/team-projects-2023-24/team02
+8df7760 update package files since i installed jhipster
+4145d59 write jdl for tournament view page
+790ad80 rename sam's tech report for filetype
+20d2efc update some background colors to match mockup
+1993d87 add tech report on angular
+7b195a6 add new time sheets
+9bf6d30 add 3rd timesheet
+70529f5 update submission with talha's work
+6b76207 rename submission file
+0c5e6d9 create M1 submission
+7aa8daf add kanban images and rename samuel's mockups
+6dc85b5 update time sheet
+7ae4a19 add ranking justification
+72da73f add mockup exports
+740f2c6 add ranking file for samuel
+0ba4c60 add issue template for feature
+c59214c add m1 persona and new time sheet
+fa18d40 update s1 report to include the timesheet
+1463760 add S1 submission documentation
+7e9522f update timesheet
+3d9b6d7 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+7fde37f update timesheet
+ed43157 update readme with noop to trigger tagged release
+c4fd569 update persona occupation
+28f9ce8 add user persona
+126ac14 remove gitkeep from timesheets directory
+77b9722 add mark's time sheet
+2eece0e add time-sheets folder
+cdd7216 add first meeting log
+c9d5492 add myself to readme

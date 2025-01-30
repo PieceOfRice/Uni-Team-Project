@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183841",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tournament_accessibility",
+  "fields": [
+    {
+      "fieldName": "accessibility",
+      "fieldType": "VenueAccessibilities",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACCESSIBLE_PARKING,RAMPS,LIFTS"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "TournamentAccessibility",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "tournamentAccessibility",
+      "relationshipName": "tournament",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

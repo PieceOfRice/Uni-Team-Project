@@ -1,0 +1,9 @@
+id;name;description;access_status
+101;Team Rhys;Rhys's Team;PRIVATE
+102;Team Mark;Mark's Team;PUBLIC
+105;Team John;John's Team;PRIVATE
+106;Team Taylor;Taylor's Team;CLOSED
+107;Team Kate;Kate's Team;PUBLIC
+108;Team Josh;Josh's Team;PRIVATE
+109;Team Tom;Tom's Team;PUBLIC
+110;Team Jesse;Jesse's Team;PRIVATE

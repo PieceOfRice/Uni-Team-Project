@@ -1,0 +1,28 @@
+id;name;mode
+1;Antarctic Peninsula;CONTROL
+2;Busan;CONTROL
+3;Ilios;CONTROL
+4;Lijiang Tower;CONTROL
+5;Nepal;CONTROL
+6;Oasis;CONTROL
+7;Samoa;CONTROL
+8;Circuit Royal;ESCORT
+9;Dorado;ESCORT
+10;Havana;ESCORT
+11;Junkertown;ESCORT
+12;Rialto;ESCORT
+13;Route 66;ESCORT
+14;Shambali Monastery;ESCORT
+15;Watchpoint: Gibraltar;ESCORT
+16;New Junk City;FLASHPOINT
+17;Suravasa;FLASHPOINT
+18;Blizzard World;HYBRID
+19;Eichenwalde;HYBRID
+20;Hollywood;HYBRID
+21;King's Row;HYBRID
+22;Midtown;HYBRID
+23;Numbani;HYBRID
+24;Paraíso;HYBRID
+25;Colosseo;PUSH
+26;Esperança;PUSH
+27;New Queen Street;PUSH

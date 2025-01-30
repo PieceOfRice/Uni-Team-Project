@@ -1,0 +1,145 @@
+<div class="tournament-link">
+  <a class="a-tournament" [routerLink]="['/tournament-view', matchData?.body?.tournament.id]">{{ tournamentData?.body.name }}</a> >
+  <a class="a-tournament" [routerLink]="['/match-view', matchData?.body?.id]">Match #{{ matchData?.body.matchIndex }}</a> > Submit
+</div>
+
+<div>
+  <form class="form-element" name="tournamentCreateForm" role="form" novalidate [formGroup]="scoreSubmitFormControl">
+    <h1 class="title" style="margin-bottom: 2.5%">Submit Score</h1>
+    <div class="formContainer">
+      <div *ngFor="let i of getRange(mapNum)">
+        <!-- Map Select - Gives back overwtchMapId-->
+        <h2 class="title" *ngIf="!(i == mapNum && i % 2 == 0)">Map {{ i }}</h2>
+        <h2 class="title" *ngIf="i == mapNum && i % 2 == 0">Tie-Breaker?</h2>
+
+        <div id="mapSelect">
+          <mat-form-field class="form-element" appearance="fill">
+            <mat-label>Select Map</mat-label>
+            <mat-select [formControlName]="'map' + i">
+              <mat-option value="no-play">Did Not Play</mat-option>
+              <mat-option *ngFor="let map of maps" value="{{ map.id }}">{{ map.mode }} - {{ map.name }} </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="scoreSubmitFormControl.controls['map' + i]?.errors?.required"> Please select a map </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Replay Input -->
+        <div
+          id="replayCode"
+          *ngIf="
+            this.scoreSubmitFormControl.get('map' + i)?.value !== 'no-play' && this.scoreSubmitFormControl.get('map' + i)?.value !== null
+          "
+        >
+          <mat-form-field class="form-element" appearance="fill">
+            <mat-label>Replay Code</mat-label>
+            <input [formControlName]="'replay' + i" matInput="text" placeholder="Replay Code here ..." maxlength="6" #name />
+            <mat-hint align="end" style="font-size: 10px">{{ name.value.length }} / 6</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="clearfix">
+          <!-- Team One Inputs-->
+          <div
+            id="teamOneSelect"
+            *ngIf="
+              this.scoreSubmitFormControl.get('map' + i)?.value !== 'no-play' && this.scoreSubmitFormControl.get('map' + i)?.value !== null
+            "
+          >
+            <h3 class="title">{{ teamOneData?.body.name }}</h3>
+
+            <!-- Score Input-->
+            <div id="teamOneScore">
+              <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Score</mat-label>
+                <input [formControlName]="'teamOneScore' + i" value="0" type="number" matInput="number" max="9" min="0" />
+                <mat-hint align="end" style="font-size: 10px">0 - 9</mat-hint>
+                <mat-error *ngIf="scoreSubmitFormControl.controls['teamOneScore' + i]?.errors?.score"> Please enter the Score </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Player Input-->
+            <div id="playerSelect">
+              <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Select Team One Players</mat-label>
+                <mat-select [formControlName]="'teamOnePlayers' + i" (selectionChange)="changedOne(i)" multiple>
+                  <mat-option *ngFor="let player of teamOnePlayers" value="{{ player[0].id }}"
+                    >{{ player[0].name }} - {{ player[0].overwatchUsername }} <br />
+                  </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="scoreSubmitFormControl.controls['teamOnePlayers' + i]?.errors?.playerList">
+                  Requires 5 Players
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Team Two Inputs-->
+          <div
+            id="teamTwoSelect"
+            *ngIf="
+              this.scoreSubmitFormControl.get('map' + i)?.value !== 'no-play' && this.scoreSubmitFormControl.get('map' + i)?.value !== null
+            "
+          >
+            <h3 class="title">{{ teamTwoData?.body.name }}</h3>
+
+            <!-- Score Input-->
+            <div id="teamTwoScore">
+              <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Score</mat-label>
+                <input [formControlName]="'teamTwoScore' + i" type="number" matInput="number" max="9" min="0" />
+                <mat-hint align="end" style="font-size: 10px">0 - 9</mat-hint>
+
+                <mat-error *ngIf="scoreSubmitFormControl.controls['teamTwoScore' + i]?.errors?.score"> Please enter the Score </mat-error>
+              </mat-form-field>
+            </div>
+
+            <!-- Player Input-->
+            <div id="playerSelect">
+              <mat-form-field class="form-element" appearance="fill">
+                <mat-label>Select Team Two Players</mat-label>
+                <mat-select [formControlName]="'teamTwoPlayers' + i" (selectionChange)="changedTwo(i)" multiple>
+                  <mat-option *ngFor="let player of teamTwoPlayers" value="{{ player[0].id }}"
+                    >{{ player[0].name }} - {{ player[0].overwatchUsername }}
+                  </mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="scoreSubmitFormControl.controls['teamTwoPlayers' + i]?.errors?.playerList">
+                  Requires 5 Players
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <hr
+          style="
+            border: 4px solid #566acd;
+            opacity: 1;
+            width: 70%;
+            margin: auto;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            margin-bottom: 50px;
+            border-radius: 5px;
+          "
+        />
+      </div>
+
+      <!-- Error Message Display for manual checks -->
+      <!--
+      <div class="error-msg" *ngFor="let msg of errorMsgs">
+        <span> <pre>{{msg}}</pre> </span>
+      </div> 
+      -->
+
+      <!-- Submit button-->
+      <div class="submit-container">
+        <!-- [disabled]="!canSubmitResults()" -->
+        <button mat-flat-button class="submitButton" (click)="saveFormResults()" type="submit" color="accent">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Submit</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

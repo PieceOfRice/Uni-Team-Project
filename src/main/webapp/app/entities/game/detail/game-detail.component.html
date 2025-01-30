@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="game">
+      <h2 data-cy="gameDetailsHeading"><span>Game</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ game.id }}</span>
+        </dd>
+        <dt><span>Order</span></dt>
+        <dd>
+          <span>{{ game.order }}</span>
+        </dd>
+        <dt><span>Score One</span></dt>
+        <dd>
+          <span>{{ game.scoreOne }}</span>
+        </dd>
+        <dt><span>Score Two</span></dt>
+        <dd>
+          <span>{{ game.scoreTwo }}</span>
+        </dd>
+        <dt><span>Overwatch Map</span></dt>
+        <dd>
+          <div *ngIf="game.overwatchMap">
+            <a [routerLink]="['/overwatch-map', game.overwatchMap.id, 'view']">{{ game.overwatchMap.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Match</span></dt>
+        <dd>
+          <div *ngIf="game.match">
+            <a [routerLink]="['/match', game.match.id, 'view']">{{ game.match.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/game', game.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

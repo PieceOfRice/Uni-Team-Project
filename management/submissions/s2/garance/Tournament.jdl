@@ -1,0 +1,74 @@
+entity Tournaments {
+    tournamentName String required
+    decription String
+    startDate ZonedDateTime required 
+    endDate ZonedDateTime
+    reward Float
+    entryFee Float
+    inviteOnly Boolean
+    maxTeamCount Integer
+    inPerson Boolean
+    online Boolean
+    inPerson Boolean
+    liveStreamURL String
+    imageURL String
+    bracket Brackets
+    ruleSet RuleSets
+}
+
+entity InPersonVenueAccessibilities {
+    accessibility VenueAccessibilities
+}
+
+enum VenueAccessibilities {
+    Accessible_Parking
+    Ramps
+    Lifts
+} 
+
+entity MapsLinks {
+    linkID Long
+    link String
+    city Cities
+} 
+
+enum RuleSets {
+    First_To_Three
+    First_To_Five
+    Etc
+}
+
+enum Brackets {
+    Round_Robin
+    Single_Elimination
+    Double_Elimination
+} 
+
+entity TournamentLocationLinks {
+    tournamentID Long
+    linkID Long
+} 
+
+enum Cities {
+    Bristol
+    Birmingham
+    Bath
+    Bradford
+    Brighton
+    Etc
+}
+
+entity PlayerMockEntity {
+    name String required
+}
+
+relationship OneToOne {
+	Tournaments to PlayerMockEntity
+}
+
+relationship OneToMany {
+    MapsLinks to TournamentLocationLinks
+    Tournaments to TournamentLocationLinks
+    Tournaments to InPersonVenueAccessibilities
+}
+

@@ -1,0 +1,103 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="tournament">
+      <h2 data-cy="tournamentDetailsHeading"><span>Tournament</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ tournament.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ tournament.name }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ tournament.description }}</span>
+        </dd>
+        <dt><span>Prize Pool</span></dt>
+        <dd>
+          <span>{{ tournament.prizePool }}</span>
+        </dd>
+        <dt><span>Entry Fee</span></dt>
+        <dd>
+          <span>{{ tournament.entryFee }}</span>
+        </dd>
+        <dt><span>Start Time</span></dt>
+        <dd>
+          <span>{{ tournament.startTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+          <span>{{ tournament.endTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Location</span></dt>
+        <dd>
+          <span>{{ tournament.location }}</span>
+        </dd>
+        <dt><span>Bracket Format</span></dt>
+        <dd>
+          <span>{{ tournament.bracketFormat }}</span>
+        </dd>
+        <dt><span>Access Status</span></dt>
+        <dd>
+          <span>{{ tournament.accessStatus }}</span>
+        </dd>
+        <dt><span>Is Live</span></dt>
+        <dd>
+          <span>{{ tournament.isLive }}</span>
+        </dd>
+        <dt><span>Ended</span></dt>
+        <dd>
+          <span>{{ tournament.ended }}</span>
+        </dd>
+        <dt><span>Banner</span></dt>
+        <dd>
+          <div *ngIf="tournament.banner">
+            <a (click)="openFile(tournament.banner, tournament.bannerContentType)">
+              <img
+                [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+                style="max-width: 100%"
+                alt="tournament image"
+              />
+            </a>
+            {{ tournament.bannerContentType }}, {{ byteSize(tournament.banner) }}
+          </div>
+        </dd>
+        <dt><span>Games Per Match</span></dt>
+        <dd>
+          <span>{{ tournament.gamesPerMatch }}</span>
+        </dd>
+        <dt><span>Max Participants</span></dt>
+        <dd>
+          <span>{{ tournament.maxParticipants }}</span>
+        </dd>
+        <dt><span>Tournament Setting</span></dt>
+        <dd>
+          <span>{{ tournament.tournamentSetting }}</span>
+        </dd>
+        <dt><span>Creator</span></dt>
+        <dd>
+          <div *ngIf="tournament.creator">
+            <a [routerLink]="['/player-data', tournament.creator.id, 'view']">{{ tournament.creator.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tournament', tournament.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

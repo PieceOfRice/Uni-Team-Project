@@ -1,0 +1,259 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-player-data-heading" data-cy="PlayerDataCreateUpdateHeading">Create or edit a Player Data</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.minlength">
+              This field is required to be at least 3 characters.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.maxlength">
+              This field cannot be longer than 50 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_overwatchUsername">Overwatch Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="overwatchUsername"
+            id="field_overwatchUsername"
+            data-cy="overwatchUsername"
+            formControlName="overwatchUsername"
+          />
+          <div
+            *ngIf="
+              editForm.get('overwatchUsername')!.invalid &&
+              (editForm.get('overwatchUsername')!.dirty || editForm.get('overwatchUsername')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('overwatchUsername')?.errors?.minlength">
+              This field is required to be at least 3 characters.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('overwatchUsername')?.errors?.maxlength">
+              This field cannot be longer than 40 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_profile">Profile</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('profileContentType')!.value + ';base64,' + editForm.get('profile')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('profile')!.value"
+              alt="playerData image"
+            />
+            <div *ngIf="editForm.get('profile')!.value" class="form-text text-danger clearfix">
+              <span class="pull-start"
+                >{{ editForm.get('profileContentType')!.value }}, {{ byteSize(editForm.get('profile')!.value!) }}</span
+              >
+              <button
+                type="button"
+                (click)="clearInputImage('profile', 'profileContentType', 'file_profile')"
+                class="btn btn-secondary btn-xs pull-end"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input type="file" id="file_profile" data-cy="profile" (change)="setFileData($event, 'profile', true)" accept="image/*" />
+          </div>
+          <input type="hidden" class="form-control" name="profile" id="field_profile" data-cy="profile" formControlName="profile" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="profileContentType"
+            id="field_profileContentType"
+            formControlName="profileContentType"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_bio">Bio</label>
+          <input type="text" class="form-control" name="bio" id="field_bio" data-cy="bio" formControlName="bio" />
+          <div *ngIf="editForm.get('bio')!.invalid && (editForm.get('bio')!.dirty || editForm.get('bio')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('bio')?.errors?.maxlength">
+              This field cannot be longer than 1000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_primaryLanguage">Primary Language</label>
+          <select
+            class="form-control"
+            name="primaryLanguage"
+            formControlName="primaryLanguage"
+            id="field_primaryLanguage"
+            data-cy="primaryLanguage"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let playerLanguage of playerLanguageValues" [value]="playerLanguage">playerLanguage</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_device">Device</label>
+          <select class="form-control" name="device" formControlName="device" id="field_device" data-cy="device">
+            <option [ngValue]="null"></option>
+            <option *ngFor="let playerDevice of playerDeviceValues" [value]="playerDevice">playerDevice</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_matchesPlayed">Matches Played</label>
+          <input
+            type="number"
+            class="form-control"
+            name="matchesPlayed"
+            id="field_matchesPlayed"
+            data-cy="matchesPlayed"
+            formControlName="matchesPlayed"
+          />
+          <div
+            *ngIf="
+              editForm.get('matchesPlayed')!.invalid && (editForm.get('matchesPlayed')!.dirty || editForm.get('matchesPlayed')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('matchesPlayed')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('matchesPlayed')?.errors?.min">
+              This field should be at least 0.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('matchesPlayed')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournamentsPlayed">Tournaments Played</label>
+          <input
+            type="number"
+            class="form-control"
+            name="tournamentsPlayed"
+            id="field_tournamentsPlayed"
+            data-cy="tournamentsPlayed"
+            formControlName="tournamentsPlayed"
+          />
+          <div
+            *ngIf="
+              editForm.get('tournamentsPlayed')!.invalid &&
+              (editForm.get('tournamentsPlayed')!.dirty || editForm.get('tournamentsPlayed')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('tournamentsPlayed')?.errors?.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('tournamentsPlayed')?.errors?.min">
+              This field should be at least 0.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('tournamentsPlayed')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_matchWins">Match Wins</label>
+          <input type="number" class="form-control" name="matchWins" id="field_matchWins" data-cy="matchWins" formControlName="matchWins" />
+          <div *ngIf="editForm.get('matchWins')!.invalid && (editForm.get('matchWins')!.dirty || editForm.get('matchWins')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('matchWins')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('matchWins')?.errors?.min"> This field should be at least 0. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('matchWins')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournamentWins">Tournament Wins</label>
+          <input
+            type="number"
+            class="form-control"
+            name="tournamentWins"
+            id="field_tournamentWins"
+            data-cy="tournamentWins"
+            formControlName="tournamentWins"
+          />
+          <div
+            *ngIf="
+              editForm.get('tournamentWins')!.invalid && (editForm.get('tournamentWins')!.dirty || editForm.get('tournamentWins')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('tournamentWins')?.errors?.required"> This field is required. </small>
+            <small class="form-text text-danger" *ngIf="editForm.get('tournamentWins')?.errors?.min">
+              This field should be at least 0.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('tournamentWins')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournamentTop10s">Tournament Top 10 S</label>
+          <input
+            type="number"
+            class="form-control"
+            name="tournamentTop10s"
+            id="field_tournamentTop10s"
+            data-cy="tournamentTop10s"
+            formControlName="tournamentTop10s"
+          />
+          <div
+            *ngIf="
+              editForm.get('tournamentTop10s')!.invalid &&
+              (editForm.get('tournamentTop10s')!.dirty || editForm.get('tournamentTop10s')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('tournamentTop10s')?.errors?.min">
+              This field should be at least 0.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('tournamentTop10s')?.errors?.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

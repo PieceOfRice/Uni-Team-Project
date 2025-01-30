@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Match.
+    -->
+    <changeSet id="20240227183834-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="tournament_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__tournament_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tournament"/>
+
+        <addForeignKeyConstraint baseColumnNames="team_one_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__team_one_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+
+        <addForeignKeyConstraint baseColumnNames="team_two_id"
+                                 baseTableName="match"
+                                 constraintName="fk_match__team_two_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="team"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,144 @@
+<div
+  class="side-panel"
+  style="display: block; position: absolute; top: 0%; bottom: 0%; background-position: 50% 50%"
+  [style.background-image]="getRandomMapImage(4)"
+></div>
+<div
+  class="side-panel"
+  style="display: block; position: absolute; top: 0%; bottom: 0%; left: 85%; background-position: 50% 50%"
+  [style.background-image]="getRandomMapImage(3)"
+></div>
+<div
+  class="replacement-panel"
+  style="display: block; position: absolute; top: 0%; height: 10rem; background-position: 50% 50%"
+  [style.background-image]="getRandomMapImage(4)"
+></div>
+<div class="middle-panel" style="padding: 2rem; background-color: #302e37">
+  <h1>Welcome to {{ title | uppercase }}!</h1>
+
+  <div style="width: 100%; height: 20rem">
+    <h3 style="border-bottom: 1px solid white">Top Teams</h3>
+    <div class="d-flex justify-content">
+      <mat-card
+        *ngFor="let team of sliceTopTeams"
+        style="
+          display: flex;
+          flex-direction: column;
+          border-radius: 1rem;
+          background-color: #3b3942;
+          margin: 0.5rem;
+          width: 10rem;
+          height: 10rem;
+          padding: 0px;
+        "
+      >
+        <a
+          [routerLink]="['/team-view', team.id]"
+          routerLinkActive="router-link-active"
+          style="display: block; position: absolute; width: 100%; height: 100%"
+        ></a>
+        <mat-card-title
+          style="
+            padding: 0.5rem 0 0 0;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+            background-color: #566acd;
+            border-radius: 1rem 1rem 0 0;
+            margin-bottom: 0px;
+            height: 25%;
+          "
+        >
+          <h5>{{ team.name }}</h5>
+        </mat-card-title>
+        <mat-card-content style="background-position: center; display: flex; margin: 0; height: 75%">
+          <img
+            *ngIf="team.logo != null"
+            [src]="'data:' + team.logoContentType + ';base64,' + team.logo"
+            style="width: 100%; height: 100%; border-radius: 0 0 1rem 1rem"
+          />
+          <img
+            *ngIf="team.logo == null"
+            [src]="'url(../../content/images/map' + ((team.id % 15) + 1) + '.png'"
+            style="width: 100%; height: 100%; border-radius: 0 0 1rem 1rem"
+          />
+        </mat-card-content>
+        <mat-card-footer style="margin-left: auto; margin-right: auto; margin-top: 0px; padding: 2px 1rem 0px 1rem"> </mat-card-footer>
+      </mat-card>
+    </div>
+    <mat-paginator
+      *ngIf="numberTopTeams > 0"
+      (page)="handleTopTeamsPageEvent($event)"
+      [length]="numberTopTeams"
+      [pageSize]="pageSizeTopTeams"
+      [showFirstLastButtons]="false"
+      [hidePageSize]="true"
+      [pageIndex]="pageIndexTopTeams"
+      aria-label="Select page"
+      style="background-color: #302e37"
+    >
+    </mat-paginator>
+  </div>
+
+  <div style="width: 100%; height: 20rem">
+    <h3 style="border-bottom: 1px solid white">Popular Tournaments</h3>
+    <div class="d-flex justify-content">
+      <mat-card
+        *ngFor="let tournament of slicePopularTournaments"
+        style="
+          display: flex;
+          flex-direction: column;
+          border-radius: 1rem;
+          background-color: #3b3942;
+          margin: 0.5rem;
+          width: 20rem;
+          height: 10rem;
+          padding: 0px;
+        "
+      >
+        <a
+          [routerLink]="['/tournament-view', tournament.id]"
+          routerLinkActive="router-link-active"
+          style="display: block; position: absolute; width: 100%; height: 100%"
+        ></a>
+        <mat-card-title
+          style="
+            padding: 0.5rem 0 0 0;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+            background-color: #566acd;
+            border-radius: 1rem 1rem 0 0;
+            margin-bottom: 0px;
+            height: 25%;
+          "
+        >
+          <h5>{{ tournament.name }}</h5>
+        </mat-card-title>
+        <mat-card-content style="background-position: center; display: flex; margin: 0; width: 20rem; height: 75%">
+          <img
+            *ngIf="tournament.banner != null"
+            [src]="'data:' + tournament.bannerContentType + ';base64,' + tournament.banner"
+            style="width: 100%; height: 100%; border-radius: 0 0 1rem 1rem"
+          />
+          <img
+            *ngIf="tournament.banner == null"
+            [src]="'url(../../content/images/map' + ((tournament.id % 15) + 1) + '.png'"
+            style="width: 100%; height: 100%; border-radius: 0 0 1rem 1rem"
+          />
+        </mat-card-content>
+        <mat-card-footer style="margin-left: auto; margin-right: auto; margin-top: 0px; padding: 2px 1rem 0px 1rem"> </mat-card-footer>
+      </mat-card>
+    </div>
+    <mat-paginator
+      *ngIf="numberPopularTournaments > 0"
+      (page)="handlePopularTournamentsPageEvent($event)"
+      [length]="numberPopularTournaments"
+      [pageSize]="pageSizePopularTournaments"
+      [showFirstLastButtons]="false"
+      [hidePageSize]="true"
+      [pageIndex]="pageIndexPopularTournaments"
+      aria-label="Select page"
+      style="background-color: #302e37"
+    >
+    </mat-paginator>
+  </div>
+</div>

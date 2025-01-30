@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <h1 class="page-header">View Player Info</h1>
+    <div class="dashboard">
+      <div class="player-info">
+        <div class="profile">
+          <div class="avatar">
+            <img
+              *ngIf="organiser?.profile; else noProfile"
+              [src]="'data:' + organiser?.profileContentType + ';base64,' + organiser?.profile"
+            />
+
+            <ng-template #noProfile>
+              <div class="default-organiser-profile">
+                <fa-icon [icon]="defaultOrganiserIcon"></fa-icon>
+              </div>
+            </ng-template>
+          </div>
+          <h1>{{ playerName }}</h1>
+          <h2>{{ playerUsername }}</h2>
+        </div>
+        <div class="about">
+          <p>{{ playerBio }}</p>
+          <p>Languages: {{ playerLanguages ?? 'None' }}</p>
+          <p>Devices: {{ playerDevices ?? 'None' }}</p>
+        </div>
+        <div class="stats">
+          <div class="stat" *ngFor="let stat of stats">{{ stat.value }} {{ stat.label }}</div>
+        </div>
+      </div>
+
+      <div class="info-cards">
+        <div class="current-teams">
+          <h3>Current Teams</h3>
+          <ul>
+            <li *ngFor="let team of currentTeams">
+              <a style="display: block; position: absolute; width: 20rem; height: 1.8rem" [routerLink]="['/team-view', team.id]"></a>
+              {{ team.name }}
+            </li>
+          </ul>
+        </div>
+        <div class="match-history">
+          <h3>Match History</h3>
+          <ul>
+            <li *ngFor="let match of matchHistory">
+              <a style="display: block; position: absolute; width: 20rem; height: 1.8rem" [routerLink]="['/match-view', match.id]"></a>
+              {{ match.oneScore }} : {{ match.twoScore }}
+            </li>
+          </ul>
+          <!-- <ul *ngIf="matchHistory.length > 0; else noMatchHistory">
+            <li *ngFor="let match of matchHistory">
+              <div>Match ID: {{ match.id }}</div>
+              <div>Score: {{ match.oneScore }} - {{ match.twoScore }}</div>
+            </li>
+          </ul>
+          <ng-template #noMatchHistory>
+            <p>No match history available.</p>
+          </ng-template> -->
+        </div>
+        <!--div class="tournament-history">
+          <h3>Tournament History</h3>
+          <ul>
+            <li *ngFor="let history of tournamentHistory">{{ history }}</li>
+          </ul>
+        </div-->
+      </div>
+    </div>
+  </body>
+</html>

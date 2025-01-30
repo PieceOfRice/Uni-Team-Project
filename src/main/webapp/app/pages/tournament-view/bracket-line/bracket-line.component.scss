@@ -1,0 +1,26 @@
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+@import '/src/main/webapp/content/scss/utilities.scss';
+
+.line-root {
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  left: 0px;
+  top: 0px;
+
+  svg {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+
+    line {
+      position: relative;
+      stroke: $theme-secondary;
+      stroke-width: 3;
+    }
+  }
+}

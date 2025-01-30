@@ -1,0 +1,16 @@
+I was responsible for implementing the universal search page, which allows users to search for players, teams and tournaments in our database. As well as this, user's are able to filter by type - All, Players, Teams or Tournaments.
+Once a search is completed, previews of the chosen players, teams or tournaments appear.
+For players, the preview includes the player's profile picture, username, bio, and teams that the player has joined.
+
+For teams, the preview consists of the team logo, name and capacity.
+
+Finally for tournaments, the preview consists of the tournament name and banner/logo.
+
+If the tournament is ongoing, the preview also displays the most recent match, with the logos and team names of participating teams visible as well as the scores. If the tournament has been completed, the preview also displays the tournament standings i.e. the first place, second place and third place team. For each standing the associated team's placement, logo and team name is shown.
+
+On selecting any team icon throughout the page, the user is taken to that team's page.
+
+A11Y script
+The search page can be navigated with the tab button, selecting an element with enter.
+Apart from this, all images on screen have a descriptive alt-text, for use with screen readers for those that are vision impaired or blind.
+The search page also has support for all different standard browser dimensions including those on mobile, ensuring users are able to access the website functionalities fully on all devices.

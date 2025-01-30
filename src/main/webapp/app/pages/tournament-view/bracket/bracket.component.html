@@ -1,0 +1,21 @@
+<div class="bracket-root" [style]="styling">
+  <div class="bracket-label">
+    <span>{{ position.bracket }}</span>
+  </div>
+
+  <div [class]="'bracket-container' + (canNavigateToMatchPage() ? '' : ' noHover')" (click)="navigateToMatchPage()">
+    <div class="half" #topHalf>
+      <div class="rank top">{{ topParticipant?.rank }}</div>
+      <div class="name">{{ topParticipant?.name }}</div>
+      <div [class]="'score top' + (this.winner == 'top' ? ' winner' : '')">{{ topScore }}</div>
+    </div>
+
+    <div class="separator" #middle></div>
+
+    <div class="half" #bottomHalf>
+      <div class="rank bottom">{{ bottomParticipant?.rank }}</div>
+      <div class="name">{{ bottomParticipant?.name }}</div>
+      <div [class]="'score bottom' + (this.winner == 'bottom' ? ' winner' : '')">{{ bottomScore }}</div>
+    </div>
+  </div>
+</div>

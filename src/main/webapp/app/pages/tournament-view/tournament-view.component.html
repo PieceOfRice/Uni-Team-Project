@@ -1,0 +1,197 @@
+<div>
+  <!-- description modal only pops up when the user clicks it -->
+  <div class="description-modal" *ngIf="descriptionVisible">
+    <div class="transparent-background"></div>
+    <div class="description-container">
+      <div class="description-title">
+        <span
+          ><i>{{ tournamentData?.name }}</i></span
+        >
+      </div>
+      <div class="description-text">
+        <span>{{ tournamentData?.description }}</span>
+      </div>
+      <button mat-flat-button (click)="hideDescriptionModal()" name="closeDescription">
+        <span>{{ 'close' | uppercase }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="join-modal" *ngIf="joinSelectionVisible">
+    <div class="transparent-background"></div>
+    <div class="teams-container">
+      <div class="teams-title">
+        <span><i>Select Team to Join with</i></span>
+      </div>
+
+      <div *ngIf="this.userTeams.length != 0">
+        <div class="teams-list" style="margin: 1rem 0 1rem" *ngFor="let team of userTeams">
+          <a (click)="this.signUp(team.id)" style="width: 20rem; height: 5rem; position: absolute"></a>
+          <div class="label">
+            <div class="logo">
+              <div *ngIf="team.logo; else noLogo">
+                <img [src]="'data:' + team.logoContentType + ';base64,' + team.logo" />
+              </div>
+              <ng-template #noLogo>
+                <fa-icon [icon]="defaultTeamLogo"></fa-icon>
+              </ng-template>
+            </div>
+            <div class="team-name" style="margin: 0 2rem">
+              {{ team.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button mat-flat-button (click)="hideTeamJoinModal()" name="closeJoinSelection">
+        <span>{{ 'close' | uppercase }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- fancy little name > View link at the top -->
+  <div class="tournament-link">
+    <a class="a-tournament" [routerLink]="['/tournament-view', tournamentData?.id]">{{ tournamentData?.name }}</a> > View
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <div class="data-panels">
+      <!-- organiser -->
+      <div class="data-panel p-left">
+        <!-- if organiser exists -->
+        <div class="organiser" *ngIf="organiser; else noOrganiser">
+          <!-- logo -->
+          <div class="logo-container">
+            <div class="logo">
+              <img
+                *ngIf="organiser.profile; else noProfile"
+                [src]="'data:' + organiser.profileContentType + ';base64,' + organiser.profile"
+              />
+
+              <ng-template #noProfile>
+                <div class="default-organiser-profile">
+                  <fa-icon [icon]="defaultOrganiserIcon"></fa-icon>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="text-container">
+            <!-- title -->
+            <div class="title">
+              <span><b>ORGANISER</b></span>
+            </div>
+
+            <!-- name -->
+            <div class="name">
+              <span>
+                <a [routerLink]="['/player', organiser.id]">
+                  <i>{{ organiser.name | organiserName: organiser.overwatchUsername }}</i>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- if no organiser -->
+        <ng-template #noOrganiser>
+          <div class="no-organiser">
+            <span><i>Organiser Unknown due to Error.</i></span>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- data -->
+      <div class="data-panel p-middle">
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="participantCountIcon"></fa-icon></div>
+          <span>{{ participantCount | displayParticipants: tournamentData?.maxParticipants }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="rewardIcon"></fa-icon></div>
+          <span>{{ tournamentData?.prizePool | displayMoney: 'prize' }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="entryFeeIcon"></fa-icon></div>
+          <span>{{ tournamentData?.entryFee | displayMoney: 'entry' }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="bracketFormatIcon"></fa-icon></div>
+          <span>{{ tournamentData?.bracketFormat | displayBracketFormat }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="timeIcon"></fa-icon></div>
+          <span>{{ tournamentData?.startTime | displayTime: tournamentData?.endTime }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="locationIcon"></fa-icon></div>
+          <span>{{ tournamentData?.location | displayLocation }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="accessStatusIcon"></fa-icon></div>
+          <span>{{ tournamentData?.accessStatus | displayAccessStatus }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="statusIcon"></fa-icon></div>
+          <span>{{ tournamentData?.isLive | displayStatus: tournamentData?.ended }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="settingIcon"></fa-icon></div>
+          <span>{{ tournamentData?.tournamentSetting | displaySetting }}</span>
+        </div>
+        <div class="data-label">
+          <div class="icon-circle"><fa-icon [icon]="gamesPerMatchIcon"></fa-icon></div>
+          <span>{{ tournamentData?.gamesPerMatch | displayGamesPerMatch }}</span>
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <div class="data-panel p-right hidden">
+        <button mat-flat-button *ngIf="userCanJoin" name="signUp" (click)="this.showTeamJoinModal()" class="signUpButton">
+          <span>{{ 'sign up' | uppercase }}</span>
+        </button>
+
+        <button mat-flat-button *ngIf="userCanLeave" (click)="this.leave()" name="leave" class="leaveButton">
+          <span>{{ 'leave' | uppercase }}</span>
+        </button>
+
+        <button mat-flat-button *ngIf="canShowDescription()" (click)="showDescriptionModal()" name="description">
+          <span>{{ 'description' | uppercase }}</span>
+        </button>
+
+        <button mat-flat-button *ngIf="canEdit" (click)="routeToEdit()" name="edit">
+          <span>{{ 'edit' | uppercase }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- banner -->
+  <div class="banner" *ngIf="tournamentData?.banner">
+    <img [src]="'data:' + tournamentData?.bannerContentType + ';base64,' + tournamentData?.banner" />
+  </div>
+
+  <!-- main page -->
+  <div class="main-page-content">
+    <!-- participants list -->
+    <div class="participant-list" *ngIf="participantCount != 0">
+      <span class="title">Participants</span>
+      <div class="participants">
+        <jhi-participant [data]="participantData" *ngFor="let participantData of signedUpTeams"></jhi-participant>
+      </div>
+    </div>
+
+    <!-- bracket view -->
+    <div class="bracket-view" [style]="bracketContainerStylingOverride">
+      <span *ngIf="participantCount == 0"><i>Nobody has signed up yet!</i></span>
+      <jhi-bracket
+        [position]="bracket.position"
+        [match]="bracket.match"
+        [topParticipant]="bracket.topParticipant"
+        [bottomParticipant]="bracket.bottomParticipant"
+        *ngFor="let bracket of brackets"
+      ></jhi-bracket>
+      <jhi-bracket-line [data]="line" *ngFor="let line of lines"></jhi-bracket-line>
+    </div>
+  </div>
+</div>

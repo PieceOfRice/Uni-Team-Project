@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183837",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "game_player",
+  "fields": [
+    {
+      "fieldName": "team",
+      "fieldType": "GameTeam",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "TEAM_ONE,TEAM_TWO"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "GamePlayer",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "game",
+      "otherEntityRelationshipName": "gamePlayer",
+      "relationshipName": "game",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "playerData",
+      "otherEntityRelationshipName": "gamePlayer",
+      "relationshipName": "playerData",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

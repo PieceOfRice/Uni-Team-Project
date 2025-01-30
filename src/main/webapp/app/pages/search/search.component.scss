@@ -1,0 +1,232 @@
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+
+#search-page {
+  width: 800px;
+  margin: 0px auto 10px auto;
+}
+
+#search {
+  display: flex;
+  flex-direction: row;
+}
+
+#type-select,
+#type-select select {
+  width: 115px;
+}
+
+#type-select select {
+  height: 24px;
+}
+#search-bar,
+#search-bar input {
+  width: 100%;
+}
+
+#results {
+  display: flex;
+  flex-direction: column;
+}
+
+// player card
+
+.player-card {
+  margin-bottom: 10px;
+  padding-top: 8px;
+  display: flex;
+}
+
+.player-card .content {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.player-card .header {
+  margin-left: 20px;
+  display: flex;
+}
+
+.player-card .actions {
+  margin-left: auto;
+}
+
+.team-actions {
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+  gap: 10px;
+  padding: 8px 0px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-preview p {
+  margin: 0px;
+}
+
+.type-name {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+mat-divider {
+  margin-top: 2px;
+  margin-bottom: 10px;
+}
+
+#team-results {
+  display: flex;
+  flex-direction: row;
+  gap: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.team-card {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 8px;
+  margin-bottom: 10px;
+}
+
+.team-card img,
+.tournament-info img {
+  margin: 4px auto;
+  width: 150px;
+  height: 150px;
+}
+
+.team-card h6 {
+  margin-top: 4px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.team-card p {
+  font-size: 14px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.tournament-card {
+  display: flex;
+  flex-direction: row;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 4px 16px 8px 16px;
+}
+
+.standings-header {
+  margin-bottom: 0px;
+  align-self: center;
+}
+
+.standings-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.standings-info img {
+  width: 50px;
+  height: 50px;
+}
+
+.standing {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.standing p {
+  text-align: center;
+  margin: 0px;
+}
+
+#tournament-results {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+// tournament - recent match preview
+
+.standings {
+  gap: 40px;
+}
+
+.recent-match {
+  gap: 30px;
+}
+
+.team1-logo,
+.team2-logo {
+  width: 70px;
+  height: 70px;
+}
+
+.recent-match-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+  align-self: center;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.in-between {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.recent-match-header {
+  margin: 0px;
+}
+
+.hyphen,
+.score {
+  font-size: 30px;
+}
+
+.team-name,
+.vs {
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.vs {
+  font-weight: 600;
+}

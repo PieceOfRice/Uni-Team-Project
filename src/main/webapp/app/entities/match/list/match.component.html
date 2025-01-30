@@ -1,0 +1,153 @@
+<div>
+  <h2 id="page-heading" data-cy="MatchHeading">
+    <span>Matches</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-match"
+        [routerLink]="['/match/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Match </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="matches?.length === 0">
+    <span>No Matches found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="matches && matches.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="matchIndex">
+            <div class="d-flex">
+              <span>Match Index</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="oneScore">
+            <div class="d-flex">
+              <span>One Score</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="twoScore">
+            <div class="d-flex">
+              <span>Two Score</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="startTime">
+            <div class="d-flex">
+              <span>Start Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="endTime">
+            <div class="d-flex">
+              <span>End Time</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scoreSubmitted">
+            <div class="d-flex">
+              <span>Score Submitted</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scoreApproved">
+            <div class="d-flex">
+              <span>Score Approved</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tournament.id">
+            <div class="d-flex">
+              <span>Tournament</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="teamOne.id">
+            <div class="d-flex">
+              <span>Team One</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="teamTwo.id">
+            <div class="d-flex">
+              <span>Team Two</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of matches; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/match', match.id, 'view']">{{ match.id }}</a>
+          </td>
+          <td>{{ match.matchIndex }}</td>
+          <td>{{ match.oneScore }}</td>
+          <td>{{ match.twoScore }}</td>
+          <td>{{ match.startTime | formatMediumDatetime }}</td>
+          <td>{{ match.endTime | formatMediumDatetime }}</td>
+          <td>{{ match.scoreSubmitted }}</td>
+          <td>{{ match.scoreApproved }}</td>
+          <td>
+            <div *ngIf="match.tournament">
+              <a [routerLink]="['/tournament', match.tournament.id, 'view']">{{ match.tournament.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="match.teamOne">
+              <a [routerLink]="['/team', match.teamOne.id, 'view']">{{ match.teamOne.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="match.teamTwo">
+              <a [routerLink]="['/team', match.teamTwo.id, 'view']">{{ match.teamTwo.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/match', match.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/match', match.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(match)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

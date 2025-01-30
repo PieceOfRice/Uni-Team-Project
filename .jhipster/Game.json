@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183835",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "game",
+  "fields": [
+    {
+      "fieldName": "order",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "scoreOne",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "scoreTwo",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Game",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "overwatchMap",
+      "otherEntityRelationshipName": "game",
+      "ownerSide": true,
+      "relationshipName": "overwatchMap",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "gamePlayer",
+      "otherEntityRelationshipName": "game",
+      "relationshipName": "gamePlayer",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "game",
+      "relationshipName": "match",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

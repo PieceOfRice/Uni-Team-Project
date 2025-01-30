@@ -1,0 +1,41 @@
+e2627f8 Merge branch 'player-dashboard-ui' into 'main'
+44d33a6 small change
+4d348ef Made changes based off code review
+e4ddbfb Fixed merge conflicts
+9cb2f42 made changes to player component
+59c6ffb made changes to player component
+842e22a made changes to player component
+21ac7e6 Updated player dashboard UI
+20fea75 updated player dashboard
+cdb42fa player dashboard UI
+cb875c0 routing change on my branch
+92ccff0 player files generated
+4f61fe3 modify
+24f9046 Added timesheet
+a6166fc Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+3512d81 Added s2 pdf
+03ea641 Added timesheet
+1a94a58 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+07c82e3 Added meeting log
+9f862f9 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+fef717b Updated JDL
+8687833 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+2cc6271 Added JDL
+2f5b124 Moved techreport
+0a359e0 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+78d5e97 Added tech report draft
+ec253c7 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+4ae117b Added timesheet
+667738f Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+835730e Added updated mockups
+96bef94 Added updated mockup
+9acb6e2 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+6e1549f Updated s1 ranking
+97ea37d Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+3db89ad Added User persona
+244af88 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+9a523c4 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+6b2d519 Added s1 submission
+5bfeae5 Update timesheet
+261ca78 Merge branch 'main' of git.cs.bham.ac.uk:team-projects-2023-24/team02
+837afb8 Updated timesheet

@@ -1,0 +1,107 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183836",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "player_data",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "50",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "overwatchUsername",
+      "fieldType": "String",
+      "fieldValidateRules": ["minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "40",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "profile",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
+      "fieldName": "bio",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
+    },
+    {
+      "fieldName": "primaryLanguage",
+      "fieldType": "PlayerLanguage",
+      "fieldValues": "ENGLISH,SPANISH,FRENCH,OTHER"
+    },
+    {
+      "fieldName": "device",
+      "fieldType": "PlayerDevice",
+      "fieldValues": "DESKTOP,CONSOLE"
+    },
+    {
+      "fieldName": "matchesPlayed",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "tournamentsPlayed",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "matchWins",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "tournamentWins",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "tournamentTop10s",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "PlayerData",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "playerData",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "gamePlayer",
+      "otherEntityRelationshipName": "playerData",
+      "relationshipName": "gamePlayer",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "creator",
+      "relationshipName": "creator",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "teamPlayer",
+      "otherEntityRelationshipName": "player",
+      "relationshipName": "player",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

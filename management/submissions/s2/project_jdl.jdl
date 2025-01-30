@@ -1,0 +1,140 @@
+enum TournamentBracketType {
+    SINGLE_ELIMINATION
+    DOUBLE_ELIMINATION
+}
+enum AccessStatus {
+    PUBLIC
+    PRIVATE
+    CLOSED
+}
+enum TeamRole {
+    LEADER
+    COACH
+    PLAYER
+    SUBSTITUTE
+}
+enum VenueAccessibilities {
+    ACCESSIBLE_PARKING
+    RAMPS
+    LIFTS
+}
+enum MapMode {
+    CONTROL
+    ESCORT
+    HYBRID
+    PUSH
+    FLASHPOINT
+}
+enum PlayerLanguage {
+    ENGLISH
+    SPANISH
+    FRENCH
+    OTHER
+}
+enum PlayerDevice {
+    DESKTOP
+    CONSOLE
+}
+enum TournamentSetting {
+    IN_PERSON
+    ONLINE
+    MIXED
+}
+enum GameTeam {
+    TEAM_ONE
+    TEAM_TWO
+}
+entity Tournament{
+    name String required unique minlength(3) maxlength(40)
+    description String maxlength(5000)
+    prizePool Float
+    entryFee Float
+    startTime ZonedDateTime required
+    endTime ZonedDateTime
+    location String
+    bracketFormat TournamentBracketType
+    accessStatus AccessStatus required
+    isLive Boolean required
+    ended Boolean required
+    banner ImageBlob maxbytes(8388608)
+    gamesPerMatch Integer required
+    maxParticipants Integer
+    tournamentSetting TournamentSetting required
+}
+dto Tournament with mapstruct
+entity Team{
+    name String required unique
+    logo ImageBlob
+    banner ImageBlob
+    description String
+}
+dto Team with mapstruct
+entity Match{
+    matchIndex Integer required
+    winnerScore Integer min(0)
+    loserScore Integer min(0)
+    startTime Instant
+    endTime Instant
+	scoreSubmitted Boolean required
+	scoreApproved Boolean required
+}
+dto Match with mapstruct
+entity Game{
+    order Integer required min(0)
+    scoreOne Integer required
+    scoreTwo Integer required
+}
+dto Game with mapstruct
+entity PlayerData{
+    name String required minlength(3) maxlength(50)
+    overwatchUsername String minlength(3) maxlength(40)
+    profile ImageBlob
+    bio String maxlength(1000)
+    primaryLanguage PlayerLanguage
+    device PlayerDevice
+    matchesPlayed Integer required min(0)
+    tournamentsPlayed Integer required min(0)
+    matchWins Integer required min(0)
+    tournamentWins Integer required min(0)
+    tournamentTop10s Integer min(0)
+}
+dto PlayerData with mapstruct
+entity GamePlayer{
+    team GameTeam required
+}
+dto GamePlayer with mapstruct
+entity OverwatchMap{
+    name String required
+    mode MapMode required
+}
+dto OverwatchMap with mapstruct
+entity Participant {
+    signUpRank Integer required
+}
+dto Participant with mapstruct
+entity TeamPlayer {
+    role TeamRole required
+}
+dto TeamPlayer with mapstruct
+entity TournamentAccessibility {
+    accessibility VenueAccessibilities required
+}
+dto TournamentAccessibility with mapstruct
+relationship OneToMany{
+    Tournament to Match
+    Team{teamOne} to Match{teamOne}
+    Team{teamTwo} to Match{teamTwo}
+	Match to Game
+	Game to GamePlayer
+	PlayerData to GamePlayer
+    Tournament to TournamentAccessibility
+    PlayerData{creator} to Tournament{creator}
+    PlayerData{player} to TeamPlayer{player}
+    Team{team} to TeamPlayer{team}
+    Team to Participant
+    Tournament to Participant
+}
+relationship OneToOne{
+    Game to OverwatchMap
+    PlayerData to User
+}

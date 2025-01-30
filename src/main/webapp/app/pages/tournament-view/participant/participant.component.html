@@ -1,0 +1,19 @@
+<div class="listing">
+  <div *ngIf="data" class="label">
+    <div class="logo">
+      <div *ngIf="data.teamData.logo; else noLogo">
+        <img [src]="'data:' + data.teamData.logoContentType + ';base64,' + data.teamData.logo" />
+      </div>
+      <ng-template #noLogo>
+        <fa-icon [icon]="defaultTeamLogo"></fa-icon>
+      </ng-template>
+    </div>
+    <div class="team-name">
+      <a [routerLink]="['/team-view', data.teamData.id]">{{ data.teamData.name }}</a>
+    </div>
+    <div class="sign-up-rank">
+      <i>{{ data.signUpRank }}</i>
+    </div>
+  </div>
+  <div *ngIf="!data">NO DATA</div>
+</div>

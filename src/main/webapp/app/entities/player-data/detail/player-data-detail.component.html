@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="playerData">
+      <h2 data-cy="playerDataDetailsHeading"><span>Player Data</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ playerData.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ playerData.name }}</span>
+        </dd>
+        <dt><span>Overwatch Username</span></dt>
+        <dd>
+          <span>{{ playerData.overwatchUsername }}</span>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+          <div *ngIf="playerData.profile">
+            <a (click)="openFile(playerData.profile, playerData.profileContentType)">
+              <img
+                [src]="'data:' + playerData.profileContentType + ';base64,' + playerData.profile"
+                style="max-width: 100%"
+                alt="playerData image"
+              />
+            </a>
+            {{ playerData.profileContentType }}, {{ byteSize(playerData.profile) }}
+          </div>
+        </dd>
+        <dt><span>Bio</span></dt>
+        <dd>
+          <span>{{ playerData.bio }}</span>
+        </dd>
+        <dt><span>Primary Language</span></dt>
+        <dd>
+          <span>{{ playerData.primaryLanguage }}</span>
+        </dd>
+        <dt><span>Device</span></dt>
+        <dd>
+          <span>{{ playerData.device }}</span>
+        </dd>
+        <dt><span>Matches Played</span></dt>
+        <dd>
+          <span>{{ playerData.matchesPlayed }}</span>
+        </dd>
+        <dt><span>Tournaments Played</span></dt>
+        <dd>
+          <span>{{ playerData.tournamentsPlayed }}</span>
+        </dd>
+        <dt><span>Match Wins</span></dt>
+        <dd>
+          <span>{{ playerData.matchWins }}</span>
+        </dd>
+        <dt><span>Tournament Wins</span></dt>
+        <dd>
+          <span>{{ playerData.tournamentWins }}</span>
+        </dd>
+        <dt><span>Tournament Top 10 S</span></dt>
+        <dd>
+          <span>{{ playerData.tournamentTop10s }}</span>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span>{{ playerData.user?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/player-data', playerData.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

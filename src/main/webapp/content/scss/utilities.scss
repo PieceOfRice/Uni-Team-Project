@@ -1,0 +1,12 @@
+// useful, app-wide utility functions for SCSS
+
+// scales the pixels of an element to fit the viewport width,
+// ensuring consistency in sizing across any viewport width, but allows working with pixels (which is nice)
+// $pixels = $pixels only when the viewport is 1600px in width - everything else is scaled proportionally.
+// it asks the question: "what would 20px on a 1600px width viewport look like on this [other pixel width viewport]?"
+@function size($pixels) {
+  $base-font-size: 16px; // scales backwards
+  $vw-scale: 1vw;
+
+  @return ($pixels / $base-font-size) * $vw-scale;
+}

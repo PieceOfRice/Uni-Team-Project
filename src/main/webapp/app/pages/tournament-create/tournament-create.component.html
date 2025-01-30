@@ -1,0 +1,224 @@
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<div class="container">
+  <form class="form-element" name="tournamentCreateForm" role="form" novalidate [formGroup]="tournamentCreationFormControl">
+    <h1 class="title">Create a New Tournament</h1>
+
+    <div class="formContainer">
+      <div class="subSection" id="buttonSection">
+        <!-- making upload banner button functional will be painful :) -->
+        <input hidden type="file" #fileUpload id="bannerUpload" (change)="setFileData($event, 'banner', true)" accept="image/*" />
+        <input type="hidden" class="form-control" name="banner" id="banner" formControlName="banner" />
+        <input type="hidden" class="form-control" name="bannerContentType" id="bannerContentType" formControlName="bannerContentType" />
+        <button mat-flat-button class="halfInput" (click)="fileUpload.click()">
+          <span>Upload Banner</span>
+        </button>
+
+        <button mat-flat-button class="halfInput" *ngIf="!this.detailedCreationVisible" (click)="this.changeDetailedCreationVisible()">
+          <span class="test">Detailed Creation</span>
+        </button>
+
+        <button mat-flat-button class="halfInput" *ngIf="this.detailedCreationVisible" (click)="this.changeDetailedCreationVisible()">
+          <span>Basic Creation</span>
+        </button>
+      </div>
+
+      <div class="subSection" id="imageSection" *ngIf="tournamentCreationFormControl.get('banner')!.value">
+        <div class="banner">
+          <img
+            [src]="
+              'data:' +
+              tournamentCreationFormControl.get('bannerContentType')!.value +
+              ';base64,' +
+              tournamentCreationFormControl.get('banner')!.value
+            "
+            alt="tournament banner"
+            id="bannerImage"
+          />
+        </div>
+      </div>
+
+      <div id="tournamentName">
+        <mat-form-field class="form-element" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input
+            formControlName="name"
+            matInput="text"
+            placeholder="Tournament name here..."
+            maxlength="40"
+            #name
+            (change)="checkNameUnique()"
+          />
+          <mat-hint align="end">{{ name.value.length }} / 40</mat-hint>
+          <mat-error *ngIf="tournamentCreationFormControl.get('name')?.hasError('required')"> A name is required. </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('name')?.hasError('minlength')"> Must be 3 characters minimum </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('name')?.hasError('maxlength')"> Over character limit </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('name')?.hasError('nameNotUnique')"> Name already taken </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div id="tournamentDescription">
+        <mat-form-field class="form-element" appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea formControlName="description" matInput="text" placeholder="Description of your tournament here..." #desc></textarea>
+          <mat-hint align="end">{{ desc.value.length }} / 5000</mat-hint>
+          <mat-error *ngIf="tournamentCreationFormControl.get('description')?.hasError('maxlength')"> Over character limit </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="subSection" id="bracketsSection">
+        <mat-form-field class="form-element" appearance="fill" class="halfInput">
+          <mat-label>Bracket Format</mat-label>
+          <mat-select formControlName="bracketFormat">
+            <mat-option *ngFor="let option of tournamentBracketFormats" [value]="option.value">
+              {{ option.viewValue | titlecase }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="tournamentCreationFormControl.get('bracketFormat')?.hasError('required')">
+            A bracket format is required.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button (click)="this.showBracketExamples = !this.showBracketExamples">
+          <span>Bracket Examples</span>
+        </button>
+      </div>
+
+      <div class="subSection" id="bracketTypeExamples" *ngIf="this.showBracketExamples">
+        <div class="halfInput">
+          <label class="bracketHeader">Single Elimination</label>
+          <img src="/content/images/SingleElimination.png" alt="Single elimination" id="singleElimination" class="bracketImage" />
+          <label class="bracketDescription">After one loss a team is elminiated.</label>
+        </div>
+        <div class="halfInput">
+          <label class="bracketHeader">Double Elimination</label>
+          <img src="/content/images/DoubleElimination.png" alt="Double elimination" id="doubleElimination" class="bracketImage" />
+          <label class="bracketDescription"
+            >After one loss a team is moved to the losers bracket, after two losses a team is eliminated.</label
+          >
+        </div>
+      </div>
+
+      <div class="subSection" id="datesSection">
+        <mat-form-field class="form-element" appearance="outline" class="halfInput">
+          <mat-label>Start Date</mat-label>
+          <input formControlName="startTime" matInput="datetime-local" type="datetime-local" />
+          <mat-error *ngIf="tournamentCreationFormControl.get('startTime')?.hasError('required')"> A start date is required. </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('startTime')?.hasError('notFuture')"> Must start in the future. </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element" appearance="outline" class="halfInput" *ngIf="this.detailedCreationVisible">
+          <mat-label>End Date</mat-label>
+          <input formControlName="endTime" matInput="datetime-local" type="datetime-local" />
+          <mat-error *ngIf="tournamentCreationFormControl.get('endTime')?.hasError('notFuture')"> Must end in the future. </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('endTime')?.hasError('invalidDate')"> Date must be valid. </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-element" appearance="fill" id="gamesCount">
+          <mat-label>Games Per Match</mat-label>
+          <input formControlName="gamesPerMatch" matInput="number" placeholder="Number of games per match here ..." type="number" #count />
+          <mat-error *ngIf="tournamentCreationFormControl.get('gamesPerMatch')?.hasError('required')">
+            Number of games per match is required.
+          </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('gamesPerMatch')?.hasError('notOdd')">
+            Number of games per match must be odd.
+          </mat-error>
+          <mat-error *ngIf="tournamentCreationFormControl.get('gamesPerMatch')?.hasError('tooBig')"> Maximum value 128. </mat-error>
+        </mat-form-field>
+
+        <div class="halfInput" *ngIf="this.detailedCreationVisible">
+          <mat-checkbox (change)="changeExtra()">Extra game on draw</mat-checkbox>
+        </div>
+      </div>
+
+      <div class="subSection" id="moneySection" *ngIf="this.detailedCreationVisible">
+        <mat-form-field class="form-element" appearance="fill" class="thirdInput">
+          <mat-label>Entry Fee</mat-label>
+          <input formControlName="entryFee" matInput="number" placeholder="Entry fee here..." type="number" />
+        </mat-form-field>
+
+        <mat-form-field class="form-element" appearance="fill" class="thirdInput">
+          <mat-label>Prize Pool</mat-label>
+          <input formControlName="prizePool" matInput="number" placeholder="Prize pool here..." type="number" />
+        </mat-form-field>
+
+        <mat-form-field class="form-element" appearance="fill" class="thirdInput">
+          <mat-label>Max Number of Teams</mat-label>
+          <input formControlName="maxParticipants" matInput="number" placeholder="Number of teams here..." type="number" />
+          <mat-error *ngIf="tournamentCreationFormControl.get('maxParticipants')?.hasError('tooBig')"> Maximum value 128. </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div id="radioButtons" class="subSection">
+        <div id="access" [ngStyle]="{ width: this.detailedCreationVisible ? '100%' : '47.5%' }">
+          <label>Access</label>
+          <hr class="split" />
+
+          <div class="subSection" id="accessRadioButtons">
+            <mat-radio-group
+              formControlName="accessStatus"
+              *ngFor="let option of tournamentPrivacyOptions"
+              [value]="option.value"
+              aria-label="Select an access status"
+              [(ngModel)]="selectedAccess"
+            >
+              <mat-radio-button [value]="option.value">
+                <mat-label>{{ option.viewValue | titlecase }}</mat-label>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div [ngStyle]="{ width: this.detailedCreationVisible ? '100%' : '47.5%' }">
+          <label>Location</label>
+          <hr class="split" />
+          <div class="subSection" id="location">
+            <div id="locationRadioButtons">
+              <mat-radio-group
+                formControlName="tournamentSetting"
+                *ngFor="let option of tournamentLocationOptions"
+                [value]="option.value"
+                aria-label="Select a location option"
+                [(ngModel)]="selectedLocation"
+              >
+                <mat-radio-button [value]="option.value">
+                  <mat-label>{{ option.viewValue | titlecase }}</mat-label>
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="halfInput" *ngIf="this.selectedLocation == 'IN_PERSON' || this.selectedLocation == 'MIXED'">
+              <div class="subSection" id="venueLocation" *ngIf="this.detailedCreationVisible">
+                <mat-form-field class="form-element" appearance="fill">
+                  <mat-label>Venue Location</mat-label>
+                  <input formControlName="location" matInput="text" placeholder="Location here..." />
+                </mat-form-field>
+              </div>
+
+              <div class="subSection" id="accessibility" *ngIf="this.detailedCreationVisible">
+                <mat-form-field class="form-element" appearance="fill">
+                  <mat-label>Venue Accessibilities</mat-label>
+                  <mat-select formControlName="accessibility" multiple>
+                    <mat-option *ngFor="let option of tournamentAccessibilityOptions" [value]="option.value">
+                      {{ option.viewValue | titlecase }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subSection" id="bottomButtonSection">
+        <button mat-flat-button class="blueButton" (click)="cancelTournamentCreation()" color="warn">
+          <span>Cancel</span>
+        </button>
+
+        <button mat-flat-button (click)="saveFormResults()" [disabled]="!canSubmitResults()" color="accent">
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Create</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

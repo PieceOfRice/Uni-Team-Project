@@ -1,0 +1,114 @@
+<div>
+  <h2 id="page-heading" data-cy="GameHeading">
+    <span>Games</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-game"
+        [routerLink]="['/game/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Game </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="games?.length === 0">
+    <span>No Games found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="games && games.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="order">
+            <div class="d-flex">
+              <span>Order</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scoreOne">
+            <div class="d-flex">
+              <span>Score One</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="scoreTwo">
+            <div class="d-flex">
+              <span>Score Two</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="overwatchMap.id">
+            <div class="d-flex">
+              <span>Overwatch Map</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="match.id">
+            <div class="d-flex">
+              <span>Match</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let game of games; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/game', game.id, 'view']">{{ game.id }}</a>
+          </td>
+          <td>{{ game.order }}</td>
+          <td>{{ game.scoreOne }}</td>
+          <td>{{ game.scoreTwo }}</td>
+          <td>
+            <div *ngIf="game.overwatchMap">
+              <a [routerLink]="['/overwatch-map', game.overwatchMap.id, 'view']">{{ game.overwatchMap.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="game.match">
+              <a [routerLink]="['/match', game.match.id, 'view']">{{ game.match.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/game', game.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/game', game.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(game)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

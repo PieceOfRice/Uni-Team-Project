@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="participant">
+      <h2 data-cy="participantDetailsHeading"><span>Participant</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ participant.id }}</span>
+        </dd>
+        <dt><span>Sign Up Rank</span></dt>
+        <dd>
+          <span>{{ participant.signUpRank }}</span>
+        </dd>
+        <dt><span>Team</span></dt>
+        <dd>
+          <div *ngIf="participant.team">
+            <a [routerLink]="['/team', participant.team.id, 'view']">{{ participant.team.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Tournament</span></dt>
+        <dd>
+          <div *ngIf="participant.tournament">
+            <a [routerLink]="['/tournament', participant.tournament.id, 'view']">{{ participant.tournament.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/participant', participant.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+@import '/src/main/webapp/content/scss/utilities.scss';
+
+.tournament-link {
+  font-size: 20px;
+}
+
+.formContainter {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  margin: auto;
+}
+
+.form-element {
+  width: 100%;
+  padding-bottom: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.mat-form-field {
+  font-size: 0.75rem;
+  height: 2.5rem;
+}
+
+#tournamentName {
+  padding-bottom: 1.25rem;
+}
+
+#mapSelect {
+  padding-bottom: 1.25rem;
+  width: 20%;
+  min-width: 15rem;
+  margin: auto;
+}
+
+#replayCode {
+  padding-bottom: 1.25rem;
+  width: 20%;
+  min-width: 15rem;
+  margin: auto;
+}
+
+#end-date {
+  padding-bottom: 1.25rem;
+  width: 20%;
+  min-width: 15rem;
+  margin: auto;
+}
+
+.clearfix {
+  width: 80%;
+  margin: auto;
+}
+
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+#teamOneScore,
+#teamTwoScore {
+  width: 7rem;
+  margin: auto;
+  margin-bottom: 5%;
+}
+
+#teamOneSelect {
+  float: left;
+  width: 50%;
+}
+
+#teamTwoSelect {
+  float: right;
+  width: 50%;
+}
+
+#playerSelect {
+  //width: 100%;
+  width: size(272px);
+  min-width: 8rem;
+  margin: auto;
+}
+
+.submitButton {
+  width: size(150px);
+  min-width: 8rem;
+}
+
+.submit-container {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-msg {
+  color: red;
+  display: block;
+  text-align: center;
+  margin: auto;
+}

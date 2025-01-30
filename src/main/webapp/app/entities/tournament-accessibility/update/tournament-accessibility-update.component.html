@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-tournament-accessibility-heading" data-cy="TournamentAccessibilityCreateUpdateHeading">
+        Create or edit a Tournament Accessibility
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_accessibility">Accessibility</label>
+          <select
+            class="form-control"
+            name="accessibility"
+            formControlName="accessibility"
+            id="field_accessibility"
+            data-cy="accessibility"
+          >
+            <option [ngValue]="null"></option>
+            <option *ngFor="let venueAccessibilities of venueAccessibilitiesValues" [value]="venueAccessibilities">
+              venueAccessibilities
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('accessibility')!.invalid && (editForm.get('accessibility')!.dirty || editForm.get('accessibility')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('accessibility')?.errors?.required"> This field is required. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tournament">Tournament</label>
+          <select
+            class="form-control"
+            id="field_tournament"
+            data-cy="tournament"
+            name="tournament"
+            formControlName="tournament"
+            [compareWith]="compareTournament"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="tournamentOption" *ngFor="let tournamentOption of tournamentsSharedCollection">
+              {{ tournamentOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

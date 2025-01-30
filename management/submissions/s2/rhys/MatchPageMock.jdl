@@ -1,0 +1,78 @@
+//Mock Entity
+entity TournamentMock{
+	name String required
+    participants Integer required
+    //...
+}
+
+//Mock Entity
+entity TeamMock{
+	name String required
+  	//...
+}
+
+entity Match{
+	maxMaps Integer required
+	scoreSubmitted Boolean required
+	scoreApproved Boolean required
+    matchDate LocalDate required
+}
+
+entity Game{
+	scoreOne Integer required
+    scoreTwo Integer required
+}
+
+//Mock Entity
+entity PlayerMock{
+	name String required
+    ign String required
+    //...
+}
+
+entity GamePlayer{
+	team Integer required
+}
+
+entity OWMap{
+	name String required
+    mode Mode required
+}
+
+enum Mode{
+	Control,
+    Escort,
+    Hybrid,
+    Push,
+    Flashpoint
+}
+
+relationship OneToMany{
+	TournamentMock{matches} to Match{tournament}
+}
+
+relationship OneToMany{
+	TeamMock{matches} to Match{teamOne}
+}
+
+relationship OneToMany{
+	TeamMock{matches} to Match{teamTwo}
+}
+
+relationship OneToMany{
+	Match{games} to Game{match}
+}
+
+relationship OneToMany{
+	Game{players} to GamePlayer{game}
+}
+
+relationship OneToMany{
+	PlayerMock{games} to GamePlayer{player}
+}
+
+relationship OneToOne{
+	Game{map} to OWMap{games}
+}
+
+

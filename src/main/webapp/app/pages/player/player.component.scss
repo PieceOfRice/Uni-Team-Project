@@ -1,0 +1,170 @@
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+@import '/src/main/webapp/content/scss/utilities.scss';
+
+body {
+  padding: 40px;
+}
+
+.page-header {
+  text-align: center;
+  font-size: 3.5em;
+  color: white;
+  text-shadow: none;
+  //margin-bottom: 0.5em;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .player-info {
+    background-color: $theme-secondary;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    .profile {
+      .avatar {
+        background-color: #7f8c8d;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        display: flex; // Ensures that the FontAwesome icon is centered
+        align-items: center; // Centers the icon vertically
+        justify-content: center; // Centers the icon horizontally
+        overflow: hidden;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        fa-icon {
+          font-size: 80px; // FontAwesome icon size: this will need to be adjusted
+          color: white; // Change the color if needed
+          // This line is crucial: it shrinks the icon a bit so it fits in the circle
+          transform: scale(0.7);
+        }
+      }
+
+      h1,
+      h2 {
+        margin: 0;
+        line-height: 1.2;
+        text-shadow: none;
+      }
+
+      h1 {
+        font-size: 1.5em;
+      }
+
+      h2 {
+        font-size: 1.2em;
+      }
+    }
+
+    .about {
+      p {
+        margin: 10px 0;
+        text-shadow: none;
+      }
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+
+      .stat {
+        background-color: white;
+        color: $theme-secondary;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: calc((100% / 3) - 30px);
+
+        &:not(:nth-of-type(3n)) {
+          margin-right: 15px;
+        }
+
+        @media (max-width: 800px) {
+          width: calc((100% / 2) - 20px);
+          &:not(:nth-of-type(3n)) {
+            margin-right: 0;
+          }
+          &:not(:nth-of-type(2n)) {
+            margin-right: 20px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  .info-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    > * {
+      // This will apply to all direct children in the .info-cards container
+      background-color: $theme-secondary;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      color: white;
+      text-align: center;
+
+      h3 {
+        color: white;
+        text-shadow: none;
+      }
+
+      p {
+        text-shadow: none;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          background-color: #ffffff;
+          padding: 10px;
+          margin-bottom: 10px;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          color: $theme-secondary;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard .info-cards {
+    grid-template-columns: 1fr 1fr; // Two columns for smaller screens
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard .info-cards {
+    grid-template-columns: 1fr; // Single column for very small screens
+  }
+}

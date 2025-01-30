@@ -1,0 +1,287 @@
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootswatch/dist/vapor/variables';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/src/main/webapp/content/scss/bootstrap-variables';
+@import '/src/main/webapp/content/scss/utilities.scss';
+
+$bgcolour: $theme-primary;
+$t1-bgcolour: #e25e5e;
+$t2-bgcolour: #5d5dcb;
+
+$t1-namescolour: #ffc813;
+$t1-nameshover: #ec7f3f;
+$t2-namescolour: #33f3e2;
+$t2-nameshover: #c800ff;
+
+.tournament-link {
+  font-size: size(20px);
+}
+
+.date {
+  font-size: size(18px);
+}
+
+.icon-wrapper {
+  width: size(40px);
+  height: size(40px);
+  display: inline-flex;
+  align-items: center;
+  margin-right: size(10px);
+  margin-left: size(10px);
+}
+
+.fa-custom-icon {
+  width: 100%;
+  height: auto;
+}
+
+.profile-pic {
+  width: size(40px);
+  height: size(40px);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  background-color: $bgcolour;
+  border: size(2px) solid $theme-secondary;
+}
+
+.team-pic {
+  width: size(65px);
+  height: size(65px);
+  margin-right: size(10px);
+  margin-left: size(10px);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  background-color: $bgcolour;
+  border: size(2px) solid $theme-secondary;
+}
+
+.player-name {
+  font-size: size(18px);
+}
+
+.player-username {
+  font-size: size(14px);
+  color: #9fa9b1;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.submit-score {
+  background-color: #fff;
+  color: #ffffff;
+  border: none;
+  font-size: size(24px);
+  border-radius: size(10px);
+  position: absolute;
+  left: 43%;
+  width: 14%;
+  background-color: $theme-secondary;
+  margin-top: size(165px);
+}
+
+.approve-score {
+  background-color: #fff;
+  color: #ffffff;
+  border: none;
+  font-size: size(24px);
+  border-radius: size(10px);
+  position: absolute;
+  left: 43%;
+  width: 14%;
+  background-color: #61be3c;
+  margin-top: size(250px);
+}
+
+.unsubmit-score {
+  background-color: #fff;
+  color: #ffffff;
+  border: none;
+  font-size: size(24px);
+  border-radius: size(10px);
+  position: absolute;
+  left: 43%;
+  width: 14%;
+  background-color: #f35454;
+  margin-top: size(320px);
+}
+
+.submit-score:active {
+  background-color: darken($theme-secondary, 20%);
+}
+
+.a-One {
+  color: $t1-namescolour;
+  text-decoration: none;
+}
+
+.a-One:hover {
+  color: $t1-nameshover;
+}
+
+.a-Two {
+  color: $t2-namescolour;
+  text-decoration: none;
+}
+
+.a-Two:hover {
+  color: $t2-nameshover;
+}
+
+.gameTeamOneList,
+.gameTeamTwoList {
+  font-size: size(20px);
+  border-radius: size(10px);
+  padding: size(10px) size(10px);
+  display: flex;
+  align-items: center;
+  margin-bottom: size(15px);
+  width: 80%;
+}
+
+.gameTeamOneList {
+  background: linear-gradient(to right, $t1-bgcolour, $t1-bgcolour, transparent);
+  float: left;
+  margin-left: 5%;
+}
+
+.gameTeamTwoList {
+  background: linear-gradient(to left, $t2-bgcolour, $t2-bgcolour, transparent);
+  float: right;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.teamTwoPlayers {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.horizontal-bar-games {
+  width: 100%;
+  height: size(50px);
+  background: linear-gradient(to right, $t1-bgcolour, transparent, $t2-bgcolour);
+  text-align: center;
+  color: white;
+  font-size: size(25px);
+  text-shadow: -1px -1px 0 $theme-secondary, 1px -1px 0 $theme-secondary, -1px 1px 0 $theme-secondary, 1px 1px 0 $theme-secondary;
+  line-height: size(50px);
+  border-radius: size(10px);
+}
+
+.horizontal-bar-teams {
+  width: 100%;
+  height: size(80px);
+  background: linear-gradient(to right, $t1-bgcolour, $bgcolour, $t2-bgcolour);
+  text-align: center;
+  color: white;
+  font-size: size(25px);
+  line-height: size(70px);
+  display: flex;
+  align-items: center;
+  border-radius: size(10px);
+}
+
+.vs {
+  font-size: size(50px);
+  margin-top: size(10px);
+}
+
+.teamOne,
+.teamTwo {
+  font-size: size(24px);
+  margin-right: size(120px);
+  margin-left: size(120px);
+}
+
+.teamOne {
+  margin-right: auto;
+}
+
+.teamTwo {
+  margin-left: auto;
+}
+
+#map-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40%;
+  background-position-y: 76%;
+}
+
+.clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.game-score {
+  width: 14%;
+  float: left;
+  text-align: center;
+  font-size: size(64px);
+  margin-top: size(130px);
+  text-shadow: -1px -1px 0 $theme-secondary, 1px -1px 0 $theme-secondary, -1px 1px 0 $theme-secondary, 1px 1px 0 $theme-secondary;
+}
+
+.game-score-total {
+  width: 14%;
+  float: left;
+  text-align: center;
+  font-size: size(90px);
+  margin-top: size(110px);
+}
+
+.replay {
+  font-size: size(22px);
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.fa-custom-icon:focus + .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}

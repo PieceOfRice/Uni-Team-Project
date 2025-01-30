@@ -1,0 +1,118 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183832",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tournament",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "40",
+      "fieldValidateRulesMinlength": "3"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "5000"
+    },
+    {
+      "fieldName": "prizePool",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "entryFee",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "ZonedDateTime",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "bracketFormat",
+      "fieldType": "TournamentBracketType",
+      "fieldValues": "SINGLE_ELIMINATION,DOUBLE_ELIMINATION"
+    },
+    {
+      "fieldName": "accessStatus",
+      "fieldType": "AccessStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PUBLIC,PRIVATE,CLOSED"
+    },
+    {
+      "fieldName": "isLive",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "ended",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "banner",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image",
+      "fieldValidateRules": ["maxbytes"],
+      "fieldValidateRulesMaxbytes": "8388608"
+    },
+    {
+      "fieldName": "gamesPerMatch",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "maxParticipants",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "tournamentSetting",
+      "fieldType": "TournamentSetting",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "IN_PERSON,ONLINE,MIXED"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Tournament",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "match",
+      "otherEntityRelationshipName": "tournament",
+      "relationshipName": "match",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tournamentAccessibility",
+      "otherEntityRelationshipName": "tournament",
+      "relationshipName": "tournamentAccessibility",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "participant",
+      "otherEntityRelationshipName": "tournament",
+      "relationshipName": "participant",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "playerData",
+      "otherEntityRelationshipName": "creator",
+      "relationshipName": "creator",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,15 @@
+/* after changing this file run 'npm run webapp:build' */
+
+/***************************
+put Sass variables here:
+eg $input-color: red;
+****************************/
+@import '/node_modules/bootswatch/dist/vapor/variables';
+// Override Bootstrap variables
+@import 'bootstrap-variables';
+// Import Bootstrap source files from node_modules
+@import '/node_modules/bootstrap/scss/bootstrap';
+@import '/node_modules/bootswatch/dist/vapor/bootswatch';
+
+// Import Angular Material themes
+@import '/node_modules/@angular/material/prebuilt-themes/purple-green'; /* jhipster-needle-scss-add-vendor JHipster will add new css style */

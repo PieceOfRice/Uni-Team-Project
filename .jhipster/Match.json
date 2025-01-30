@@ -1,0 +1,76 @@
+{
+  "applications": "*",
+  "changelogDate": "20240227183834",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "match",
+  "fields": [
+    {
+      "fieldName": "matchIndex",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "winnerScore",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "loserScore",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "0"
+    },
+    {
+      "fieldName": "startTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "endTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "scoreSubmitted",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "scoreApproved",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Match",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "game",
+      "otherEntityRelationshipName": "match",
+      "relationshipName": "game",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tournament",
+      "otherEntityRelationshipName": "match",
+      "relationshipName": "tournament",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "teamOne",
+      "relationshipName": "teamOne",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "team",
+      "otherEntityRelationshipName": "teamTwo",
+      "relationshipName": "teamTwo",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

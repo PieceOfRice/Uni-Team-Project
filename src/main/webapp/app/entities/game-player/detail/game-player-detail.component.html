@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="gamePlayer">
+      <h2 data-cy="gamePlayerDetailsHeading"><span>Game Player</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ gamePlayer.id }}</span>
+        </dd>
+        <dt><span>Team</span></dt>
+        <dd>
+          <span>{{ gamePlayer.team }}</span>
+        </dd>
+        <dt><span>Game</span></dt>
+        <dd>
+          <div *ngIf="gamePlayer.game">
+            <a [routerLink]="['/game', gamePlayer.game.id, 'view']">{{ gamePlayer.game.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Player Data</span></dt>
+        <dd>
+          <div *ngIf="gamePlayer.playerData">
+            <a [routerLink]="['/player-data', gamePlayer.playerData.id, 'view']">{{ gamePlayer.playerData.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/game-player', gamePlayer.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

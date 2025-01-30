@@ -1,0 +1,67 @@
+entity Player {
+    playerName String required,
+    playerUsername String required,
+    gamesPlayed Integer,
+    stats String,
+    aboutMe String,
+    languages Languages,
+    devices Devices
+}
+
+entity Team {
+    teamName String required,
+    players Player
+}
+
+entity Game {
+    gameName String required,
+    players Player
+}
+
+entity Tournament {
+    tournamentName String required,
+    tournamentDate Instant required,
+    players Player
+}
+
+entity Match {
+    matchDate Instant required,
+    matchStats String required,
+    players Player
+}
+
+enum Languages {
+    ENGLISH, SPANISH, FRENCH, OTHER
+}
+
+enum Devices {
+    PC, CONSOLE
+}
+
+relationship ManyToMany {
+    Player to Team,
+    Player to Game,
+    Player to Tournament,
+    Match to Player
+}
+
+relationship OneToMany {
+    Team to Player,
+    Game to Player,
+    Tournament to Player,
+    Tournament to Match,
+    Match to Player
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
